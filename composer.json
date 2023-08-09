@@ -13,5 +13,8 @@
             "email": "medilies.contact@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^8.1",
+        "ext-glfw": "*"
+    }
 }
