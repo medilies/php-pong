@@ -1,0 +1,17 @@
+{
+    "name": "medilies/trying-php-glfw",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Medilies\\TryingPhpGlfw\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "medilies",
+            "email": "medilies.contact@gmail.com"
+        }
+    ],
+    "require": {}
+}
