@@ -17,38 +17,23 @@ class Engine
             throw new Exception('GLFW could not be initialized!');
         }
 
-        $this->createWindow()
-            ->bindContext();
-    }
-
-    private function createWindow(): static
-    {
         $this->window = new Window;
 
-        return $this;
-    }
-
-    private function bindContext(): static
-    {
-        glfwMakeContextCurrent($this->window->ref);
         glfwSwapInterval(1);
-
-        return $this;
     }
 
     public function loop(): void
     {
-        while (!glfwWindowShouldClose($this->window->ref)) {
+        while (!$this->window->shouldClose()) {
             glfwPollEvents();
 
             // setting the clear color to black and clearing the color buffer
-            glfwGetCursorPos($this->window->ref, $mouseX, $mouseY);
+            [$mouseX, $mouseY] = $this->window->getCursorPos();
+
             glClearColor(sin($mouseX / 300), sin($mouseY / 300), cos($mouseY / 300), 1);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            // swap the windows framebuffer and
-            // poll queued window events.
-            glfwSwapBuffers($this->window->ref);
+            $this->window->swapBuffers();
         }
     }
 

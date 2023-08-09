@@ -7,15 +7,46 @@ use GLFWwindow;
 
 class Window
 {
-    public GLFWwindow $ref;
+    private GLFWwindow $windowRef;
 
-    public function __construct()
-    {
-        $this->setProps()
-            ->create();
+    public function __construct(
+        private int $width = 800,
+        private int $height = 600,
+        private string $title = "PHP GLFW Demo",
+    ) {
+        $this->setProps();
+        $this->create();
+        glfwMakeContextCurrent($this->windowRef);
     }
 
-    private function setProps(): static
+    // ===============================================
+    // ...
+    // ===============================================
+
+    public function shouldClose(): bool
+    {
+        return glfwWindowShouldClose($this->windowRef);
+    }
+
+    public function swapBuffers(): void
+    {
+        // swap the windows framebuffer and
+        // poll queued window events.
+        glfwSwapBuffers($this->windowRef);
+    }
+
+    public function getCursorPos(): array
+    {
+        glfwGetCursorPos($this->windowRef, $mouseX, $mouseY);
+
+        return [$mouseX, $mouseY];
+    }
+
+    // ===============================================
+    // Init
+    // ===============================================
+
+    private function setProps(): void
     {
         // allow the window to be resized by the user
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
@@ -27,21 +58,27 @@ class Window
 
         // enable forward compatibility, @see glfw docs for details
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-        return $this;
     }
 
-    private function create(): static
+    private function create(): void
     {
-        if (!$this->ref = glfwCreateWindow(800, 600, "PHP GLFW Demo")) {
+        $this->windowRef = glfwCreateWindow(
+            $this->width,
+            $this->height,
+            $this->title,
+        );
+
+        if (!$this->windowRef) {
             throw new Exception('OS Window could not be initialized!');
         }
-
-        return $this;
     }
+
+    // ===============================================
+    // Destroy
+    // ===============================================
 
     public function __destruct()
     {
-        glfwDestroyWindow($this->ref);
+        glfwDestroyWindow($this->windowRef);
     }
 }
