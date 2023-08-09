@@ -23,7 +23,7 @@ class Window
     // ...
     // ===============================================
 
-    public function shouldClose(): bool
+    public function shouldClose(): int
     {
         return glfwWindowShouldClose($this->windowRef);
     }
