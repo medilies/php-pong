@@ -13,7 +13,7 @@ class Engine
         /**
          * Must initialize the GLFW library before using most GLFW functions.
          */
-        if (!glfwInit()) {
+        if (! glfwInit()) {
             throw new Exception('GLFW could not be initialized!');
         }
 
@@ -24,7 +24,7 @@ class Engine
 
     public function loop(): void
     {
-        while (!$this->window->shouldClose()) {
+        while (! $this->window->shouldClose()) {
             glfwPollEvents();
 
             // setting the clear color to black and clearing the color buffer

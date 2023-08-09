@@ -12,7 +12,7 @@ class Window
     public function __construct(
         private int $width = 800,
         private int $height = 600,
-        private string $title = "PHP GLFW Demo",
+        private string $title = 'PHP GLFW Demo',
     ) {
         $this->setProps();
         $this->create();
@@ -51,7 +51,7 @@ class Window
         // allow the window to be resized by the user
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-        // set the OpenGL context version and profile 
+        // set the OpenGL context version and profile
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -68,7 +68,7 @@ class Window
             $this->title,
         );
 
-        if (!$this->windowRef) {
+        if (! $this->windowRef) {
             throw new Exception('OS Window could not be initialized!');
         }
     }

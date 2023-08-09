@@ -1,0 +1,6 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "native_function_casing": false
+    }
+}

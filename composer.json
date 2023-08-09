@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "ext-glfw": "*"
+        "ext-glfw": "*",
+        "laravel/pint": "^1.10"
     }
 }
