@@ -36,7 +36,7 @@ function glClearColor(float $red, float $green, float $blue, float $alpha): mixe
 /**
  * TODO ...
  */
-function glClear(mixed $mask): void
+function glClear(int $mask): void
 {
 }
 
