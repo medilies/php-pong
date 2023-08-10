@@ -10,18 +10,22 @@ class Window
     private GLFWwindow $windowRef;
 
     public function __construct(
-        private int $width = 800,
-        private int $height = 600,
-        private string $title = 'PHP GLFW Demo',
+        private int $width,
+        private int $height,
+        private string $title,
     ) {
         $this->setProps();
         $this->create();
-        glfwMakeContextCurrent($this->windowRef); // TODO: public
     }
-
+    
     // ===============================================
     // ...
     // ===============================================
+    
+    public function makeCurrentContext(): void
+    {
+        glfwMakeContextCurrent($this->windowRef); 
+    }
 
     public function shouldClose(): int
     {

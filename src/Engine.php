@@ -17,7 +17,8 @@ class Engine
             throw new Exception('GLFW could not be initialized!');
         }
 
-        $this->window = new Window;
+        $this->window = new Window(800, 600, 'Hello PHP GLFW');
+        $this->window->makeCurrentContext();
 
         glfwSwapInterval(1);
     }
