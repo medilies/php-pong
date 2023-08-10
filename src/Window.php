@@ -17,14 +17,14 @@ class Window
         $this->setProps();
         $this->create();
     }
-    
+
     // ===============================================
     // ...
     // ===============================================
-    
+
     public function makeCurrentContext(): void
     {
-        glfwMakeContextCurrent($this->windowRef); 
+        glfwMakeContextCurrent($this->windowRef);
     }
 
     public function shouldClose(): int
@@ -44,6 +44,11 @@ class Window
         glfwGetCursorPos($this->windowRef, $mouseX, $mouseY);
 
         return [$mouseX, $mouseY];
+    }
+
+    public function getRef(): GLFWwindow
+    {
+        return $this->windowRef;
     }
 
     // ===============================================
