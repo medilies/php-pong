@@ -1,7 +1,7 @@
 <?php
 
-use Medilies\TryingPhpGlfw\Engine;
+use Medilies\TryingPhpGlfw\Context;
 
 include './vendor/autoload.php';
 
-(new Engine())->loop();
+Context::make()->loop();
