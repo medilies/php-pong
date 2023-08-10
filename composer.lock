@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29bdb01e550f1d007e1f43455952e3a2",
+    "content-hash": "99ee56d7f1d05d01bf15ac0bd7b42f16",
     "packages": [
         {
             "name": "laravel/pint",
@@ -73,7 +73,58 @@
             "time": "2023-08-08T15:17:16+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "phpgl/ide-stubs",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpgl/ide-stubs.git",
+                "reference": "fb64b20209db3bae6d05a3f748c99b2e6fc7ca52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpgl/ide-stubs/zipball/fb64b20209db3bae6d05a3f748c99b2e6fc7ca52",
+                "reference": "fb64b20209db3bae6d05a3f748c99b2e6fc7ca52",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mario Döring",
+                    "homepage": "https://github.com/mario-deluna"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/phpgl/ide-stubs/graphs/contributors"
+                }
+            ],
+            "description": "IDE Stubs for PHP-GLFW / OpenGL. (PHPStorm, VSCode, etc.)",
+            "homepage": "https://phpgl.net",
+            "keywords": [
+                "3d",
+                "Rendering",
+                "autocomplete",
+                "glfw",
+                "opengl",
+                "php-glfw",
+                "phpstorm"
+            ],
+            "support": {
+                "issues": "https://github.com/phpgl/ide-stubs/issues",
+                "source": "https://github.com/phpgl/ide-stubs/tree/v1.0.3"
+            },
+            "time": "2022-09-17T23:04:49+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

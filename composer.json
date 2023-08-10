@@ -17,5 +17,8 @@
         "php": "^8.1",
         "ext-glfw": "*",
         "laravel/pint": "^1.10"
+    },
+    "require-dev": {
+        "phpgl/ide-stubs": "^1.0"
     }
 }

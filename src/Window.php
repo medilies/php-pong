@@ -16,7 +16,7 @@ class Window
     ) {
         $this->setProps();
         $this->create();
-        glfwMakeContextCurrent($this->windowRef);
+        glfwMakeContextCurrent($this->windowRef); // TODO: public
     }
 
     // ===============================================
