@@ -17,13 +17,18 @@ class Context
 
     private Window $window;
 
+    // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
     {
+        echo glfwGetVersionString().PHP_EOL;
+
         // Must initialize the GLFW library before using most GLFW functions.
         if (! glfwInit()) {
             throw new Exception('GLFW could not be initialized!');
         }
 
+        // setting the swap interval to "1" basically enabled vsync.
+        // more correctly it defines how many screen updates to wait for after swapBuffers has been called
         glfwSwapInterval(1);
 
         $this->createWindow();
@@ -37,14 +42,13 @@ class Context
         glfwWindowHint(GLFW_OPENGL_PROFILE, $this->profile);
 
         // Resizable
-        glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
         // Required to run on Mac OS X
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
         $this->window = new Window(800, 600, 'Hello PHP GLFW');
 
-        // This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time.
         $this->window->makeCurrentContext();
 
         return $this;
@@ -66,8 +70,8 @@ class Context
             glClear(GL_COLOR_BUFFER_BIT);
 
             // Check and call events and swap the buffers
-            glfwPollEvents();
             $this->window->swapBuffers();
+            glfwPollEvents();
         }
     }
 

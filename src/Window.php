@@ -22,9 +22,19 @@ class Window
     // ...
     // ===============================================
 
+    /**
+     * Bind to current context
+     */
     public function makeCurrentContext(): void
     {
+        // This function makes the OpenGL or OpenGL ES context of the specified window current on the calling thread. A context must only be made current on a single thread at a time and each thread can have only a single current context at a time.
+        // In other words all GL commands will be executed in the context of this window.
+        // Special in PHP-GLFW is that this will also initialize GLAD.
         glfwMakeContextCurrent($this->windowRef);
+
+        // Cannot do this before glfwMakeContextCurrent
+        // ? related to GLAD
+        echo glGetString(GL_VERSION).PHP_EOL;
     }
 
     public function shouldClose(): int
