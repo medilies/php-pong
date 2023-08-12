@@ -1,6 +1,7 @@
 <?php
 
 use Medilies\TryingPhpGlfw\Context;
+use Medilies\TryingPhpGlfw\ShaderProgram;
 
 include './vendor/autoload.php';
 
@@ -11,42 +12,8 @@ $context->init();
 // Shader Setup
 // ----------------------------------------------------------------------------
 
-// create, upload and compile the vertex shader
-
-$vertexShader = glCreateShader(GL_VERTEX_SHADER);
-glShaderSource($vertexShader, file_get_contents(__DIR__.'/src/assets/shaders/vertex/triangle.glsl'));
-glCompileShader($vertexShader);
-glGetShaderiv($vertexShader, GL_COMPILE_STATUS, $success);
-if (! $success) {
-    throw new Exception('Vertex shader could not be compiled.');
-}
-
-// create, upload and compile the fragment shader
-$fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-glShaderSource($fragShader, file_get_contents(__DIR__.'/src/assets/shaders/fragment/triangle.glsl'));
-glCompileShader($fragShader);
-glGetShaderiv($fragShader, GL_COMPILE_STATUS, $success);
-if (! $success) {
-    throw new Exception('Fragment shader could not be compiled.');
-}
-
-// create a shader programm and link our vertex and framgent shader together
-$shaderProgram = glCreateProgram();
-glAttachShader($shaderProgram, $vertexShader);
-glAttachShader($shaderProgram, $fragShader);
-glLinkProgram($shaderProgram);
-
-glGetProgramiv($shaderProgram, GL_LINK_STATUS, $linkSuccess);
-
-if (! $linkSuccess) {
-    throw new Exception('Shader program could not be linked.');
-}
-
+$shaderProgram = new ShaderProgram('triangle', 'triangle');
 $context->registerShaderProgram('triangle', $shaderProgram);
-
-// free the shders
-glDeleteShader($vertexShader);
-glDeleteShader($fragShader);
 
 // Buffer and data setup
 // ----------------------------------------------------------------------------

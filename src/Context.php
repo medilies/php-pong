@@ -93,24 +93,23 @@ class Context
         return $this->window;
     }
 
-    public function registerShaderProgram(string $name, mixed $shaderProgram): void
+    public function registerShaderProgram(string $name, ShaderProgram $shaderProgram): void
     {
         $this->shaderPrograms[$name] = $shaderProgram;
     }
 
     public function useShaderProgram(string $name): void
     {
-        glUseProgram($this->shaderPrograms[$name]);
+        $this->shaderPrograms[$name]->use();
     }
 
     public function useShaderProgramIfExists(string $name): void
     {
-        if(!isset($this->shaderPrograms[$name]))
-        {
+        if (! isset($this->shaderPrograms[$name])) {
             return;
         }
 
-        glUseProgram($this->shaderPrograms[$name]);
+        $this->shaderPrograms[$name]->use();
     }
 
     public function registerVaoVbo(string $name, mixed $VAO, mixed $VBO): void
