@@ -7,7 +7,7 @@ use Medilies\TryingPhpGlfw\Context;
 use Medilies\TryingPhpGlfw\Elements\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 $context = Context::make();
 $context->init();

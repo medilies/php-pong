@@ -4,7 +4,7 @@ use Medilies\TryingPhpGlfw\Context;
 use Medilies\TryingPhpGlfw\Elements\PlainTriangle;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 
-include './vendor/autoload.php';
+include __DIR__.'/../vendor/autoload.php';
 
 $context = Context::make();
 
