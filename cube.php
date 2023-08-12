@@ -6,8 +6,12 @@
 
 use GL\Math\{GLM, Vec3, Vec4, Mat4};
 use GL\Buffer\FloatBuffer;
+use Medilies\TryingPhpGlfw\Context;
 
-$window = ExampleHelper::begin();
+require __DIR__.'/vendor/autoload.php';
+
+$context = Context::make();
+$context->init();
 
 // compile a simple shader to project the cube
 // and output the uv colors to the fragment shader
@@ -84,7 +88,7 @@ glBindBuffer(GL_ARRAY_BUFFER, 0);
 glBindVertexArray(0);
 
 // update the viewport
-glViewport(0, 0, ExampleHelper::WIN_WIDTH, ExampleHelper::WIN_HEIGHT);
+glViewport(0, 0, 800, 600);
 
 // enable depth testing, because we are rendering a 3d object with overlapping
 // triangles
@@ -92,7 +96,7 @@ glEnable(GL_DEPTH_TEST);
 
 // Main Loop
 // ----------------------------------------------------------------------------
-while (!glfwWindowShouldClose($window))
+while (!glfwWindowShouldClose($context->getCurrentWindow()->getRef()))
 {
     glClearColor(0, 0, 0, 1);
     // note how we are clearing both the DEPTH and COLOR buffers.
@@ -116,7 +120,7 @@ while (!glfwWindowShouldClose($window))
 
     // and finally the projection matrix, this is the perspective matrix.
 	$projection = new Mat4;
-	$projection->perspective(GLM::radians(70.0), ExampleHelper::WIN_WIDTH / ExampleHelper::WIN_HEIGHT, 0.1, 100.0);
+	$projection->perspective(GLM::radians(70.0), 800 / 600, 0.1, 100.0);
 
     // now set the uniform variables in the shader.
     // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
@@ -130,7 +134,7 @@ while (!glfwWindowShouldClose($window))
 
     // swap the windows framebuffer and
     // poll queued window events.
-    glfwSwapBuffers($window);
+    glfwSwapBuffers($context->getCurrentWindow()->getRef());
     glfwPollEvents();
 }
 
@@ -138,8 +142,6 @@ while (!glfwWindowShouldClose($window))
 // stop & cleanup
 glDeleteVertexArrays(1, $VAO);
 glDeleteBuffers(1, $VBO);
-
-ExampleHelper::stop($window);
 
 // !
 
@@ -152,67 +154,6 @@ use GL\Texture\Texture2D;
  */
 class ExampleHelper
 {
-    const WIN_WIDTH = 1280;
-    const WIN_HEIGHT = 720;
-
-    /**
-     * Initializes GLFW and creates a window.
-     */
-    public static function begin() : GLFWwindow
-    {
-        // initalize GLFW
-        if (!glfwInit()) {
-            throw new Exception('GLFW could not be initialized!');
-        }
-
-        // prints the GLFW version for the examples sake
-        echo glfwGetVersionString() . PHP_EOL;
-
-        // configure the window
-        glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
-        // make sure to set the GLFW context version to the same
-        // version the GLFW extension has been compiled with, default 4.1
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-        // enable forward compatibitly, @see glfw docs for details
-        // but mostly this fixes an issue many expirence on MacOS
-        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-
-        // disable retina fb because there seems to be an issue: https://github.com/glfw/glfw/issues/1334
-        // glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GL_FALSE);
-
-        // glfwCreateWindow will initalizes a new window in which you can render,
-        // you can have multiple windows of course.
-        if (!$window = glfwCreateWindow(self::WIN_WIDTH, self::WIN_HEIGHT, "PHP GLFW Demo")) {
-            throw new Exception('OS Window could not be initialized!');
-        }
-
-        // calling this method will make the given window object
-        // the one that is bound to the current GL context. In other words
-        // all GL commands will be executed in the context of this window
-        // Special in PHP-GLFW is that this will also initialize glad.
-        glfwMakeContextCurrent($window);
-
-        // setting the swap interval to "1" basically enabled vsync.
-        // more correctly it defines how many screen updates to wait for
-        // after glfwSwapBuffers has been called
-        glfwSwapInterval(1);
-
-        return $window;
-    }
-
-    /**
-     * Terminates GLFW, destroys the window and frees all resources.
-     */
-    public static function stop(GLFWwindow $window) : void
-    {
-        glfwDestroyWindow($window);
-        glfwTerminate();
-    }
-
     /**
      * Compiles a basic shader program.
      */
