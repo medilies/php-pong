@@ -12,20 +12,9 @@ $context->init();
 // ----------------------------------------------------------------------------
 
 // create, upload and compile the vertex shader
+
 $vertexShader = glCreateShader(GL_VERTEX_SHADER);
-glShaderSource($vertexShader, <<< 'GLSL'
-#version 330 core
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 color;
-
-out vec4 pcolor;
-
-void main()
-{
-    pcolor = vec4(color, 1.0f);
-    gl_Position = vec4(position, 1.0f);
-}
-GLSL);
+glShaderSource($vertexShader, file_get_contents(__DIR__.'/src/assets/shaders/vertex/triangle.glsl'));
 glCompileShader($vertexShader);
 glGetShaderiv($vertexShader, GL_COMPILE_STATUS, $success);
 if (! $success) {
@@ -34,16 +23,7 @@ if (! $success) {
 
 // create, upload and compile the fragment shader
 $fragShader = glCreateShader(GL_FRAGMENT_SHADER);
-glShaderSource($fragShader, <<<'GLSL'
-#version 330 core
-out vec4 fragment_color;
-in vec4 pcolor;
-
-void main()
-{
-    fragment_color = pcolor;
-}
-GLSL);
+glShaderSource($fragShader, file_get_contents(__DIR__.'/src/assets/shaders/fragment/triangle.glsl'));
 glCompileShader($fragShader);
 glGetShaderiv($fragShader, GL_COMPILE_STATUS, $success);
 if (! $success) {

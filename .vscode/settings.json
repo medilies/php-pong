@@ -1,5 +1,8 @@
 {
     "[php]": {
         "editor.formatOnSave": false
-    }
+    },
+    "cSpell.words": [
+        "glsl"
+    ]
 }
