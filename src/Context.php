@@ -27,13 +27,37 @@ class Context
         if (! glfwInit()) {
             throw new Exception('GLFW could not be initialized!');
         }
+    }
 
+    public function init(): void
+    {
         // setting the swap interval to "1" basically enabled vsync.
         // more correctly it defines how many screen updates to wait for after swapBuffers has been called
         glfwSwapInterval(1);
 
         $this->createWindow();
     }
+
+    public function loop(callable $callback): void
+    {
+        while (! $this->window->shouldClose()) {
+            $callback($this);
+
+            // Check and call events and swap the buffers
+            $this->window->swapBuffers();
+            glfwPollEvents();
+        }
+    }
+
+    public function __destruct()
+    {
+        // Free allocated any resources allocated
+        glfwTerminate();
+    }
+
+    // ===============================================
+    // ...
+    // ===============================================
 
     private function createWindow(): static
     {
@@ -55,30 +79,8 @@ class Context
         return $this;
     }
 
-    public function loop(): void
+    public function getCurrentWindow(): Window
     {
-        while (! $this->window->shouldClose()) {
-            // Close input event
-            if (glfwGetKey($this->window->getRef(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-                glfwSetWindowShouldClose($this->window->getRef(), GL_TRUE);
-            }
-
-            // setting the clear color to black and clearing the color buffer
-            [$mouseX, $mouseY] = $this->window->getCursorPos();
-
-            // Render
-            glClearColor(sin($mouseX / 300), sin($mouseY / 300), cos($mouseY / 300), 1);
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            // Check and call events and swap the buffers
-            $this->window->swapBuffers();
-            glfwPollEvents();
-        }
-    }
-
-    public function __destruct()
-    {
-        // Free allocated any resources allocated
-        glfwTerminate();
+        return $this->window;
     }
 }
