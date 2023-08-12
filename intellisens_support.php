@@ -14,3 +14,13 @@ namespace GL\Math {
         }
     }
 }
+
+namespace GL\Texture{
+    class Texture2D
+    {
+        public static function fromDisk(string $path): mixed
+        {
+
+        }
+    }
+}
