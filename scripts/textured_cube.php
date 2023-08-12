@@ -3,10 +3,10 @@
 use GL\Math\GLM;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
-use GL\Texture\Texture2D;
 use Medilies\TryingPhpGlfw\Context;
 use Medilies\TryingPhpGlfw\Elements\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
+use Medilies\TryingPhpGlfw\TextureLoader;
 
 include __DIR__.'/../vendor/autoload.php';
 
@@ -21,44 +21,16 @@ $context->registerElement('uv_cube', new UvCube);
 // ! --------------
 // This is the same code for uv_cube except
 // 1. The usage of a different fragment shader
-// 2. Texture code in this section
+// 2. Texture loading
 
-// generate a texture, load it from a file and bind it
-glGenTextures(1, $texture);
-glActiveTexture(GL_TEXTURE0);
-glBindTexture(GL_TEXTURE_2D, $texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-
-// set the texture wrapping parameters
-// here we basically tell opengl to repeat the texture, so when sampling out of bounds
-// it will still give you a result
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-// set texture filtering parameters
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-// PHP-GLFW comes with an image loader based on stb_image
-// with it you can easily create a pixel buffer object to upload to opengl
-$textureData = Texture2D::fromDisk(__DIR__.'/../src/assets/images/php-logo.png');
-glTexImage2D(
-    GL_TEXTURE_2D,
-    0,
-    GL_RGB,
-    $textureData->width(),
-    $textureData->height(),
-    0,
-    GL_RGB,
-    GL_UNSIGNED_BYTE,
-    $textureData->buffer()
-);
-
-// this call generates the mipmap for the texture
-glGenerateMipmap(GL_TEXTURE_2D);
+TextureLoader::load(__DIR__.'/../src/assets/images/php-logo.png');
 
 // set the shader uniform to point the texture unit to our texture
 $context->useShaderProgram('textured_cube'); // ? hooked texture to shader program
-glUniform1i(glGetUniformLocation($shaderProgram->getRef(), 'logo'), 0);
+glUniform1i(
+    glGetUniformLocation($shaderProgram->getRef(), 'logo'),
+    0
+);
 
 // ! --------------
 
