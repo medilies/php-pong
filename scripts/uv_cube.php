@@ -33,17 +33,23 @@ $context->loop(function (Context $context) {
     // for the coming draw calls.
     $context->useShaderProgram('cube');
 
-    // define the model matrix aka the cubes position in the world
+    // ! Note:
+    // Compared to triangle example, three new concepts are introduced here:
+    // 1. Model
+    // 2. View/Camera
+    // 3. Perspective
+
+    // define the model matrix aka the cube's position in the world
     $model = new Mat4;
-    // because we want the cube to spin, we rotate the matrix based
-    // on the elapsed time.
-    $model->rotate(glfwGetTime() * 2, new Vec3(0.0, 1.0, 0.0));
-    $model->rotate(glfwGetTime() * 2, new Vec3(0.0, 0.0, 1.0));
+    // because we want the cube to spin, we rotate the matrix based on the elapsed time.
+    $speedMultiplier = 1;
+    $model->rotate(glfwGetTime() * $speedMultiplier, new Vec3(0.0, 1.0, 0.0));
+    $model->rotate(glfwGetTime() * $speedMultiplier, new Vec3(0.0, 0.0, 1.0));
 
     // next the view matrix, this is the camera / eye position and rotation
     $view = new Mat4;
     // you can imagine the camera is being moved back by 2 units here.
-    $view->translate(new Vec3(0.0, 0.0, -2));
+    $view->translate(new Vec3(-0.0, 0.0, -2));
 
     // and finally the projection matrix, this is the perspective matrix.
     $projection = new Mat4;
@@ -51,9 +57,21 @@ $context->loop(function (Context $context) {
 
     // now set the uniform variables in the shader.
     // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
-    glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), 'model'), GL_FALSE, $model);
-    glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), 'view'), GL_FALSE, $view);
-    glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), 'projection'), GL_FALSE, $projection);
+    glUniformMatrix4f(
+        glGetUniformLocation($context->getShaderProgramRef('cube'), 'model'),
+        GL_FALSE,
+        $model
+    );
+    glUniformMatrix4f(
+        glGetUniformLocation($context->getShaderProgramRef('cube'), 'view'),
+        GL_FALSE,
+        $view
+    );
+    glUniformMatrix4f(
+        glGetUniformLocation($context->getShaderProgramRef('cube'), 'projection'),
+        GL_FALSE,
+        $projection
+    );
 
     // bind & draw the vertex array
     $context->bindVertexArray('uv_cube');
