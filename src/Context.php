@@ -19,7 +19,7 @@ class Context
 
     private array $shaderPrograms = [];
 
-    private array $vaoVbo = [];
+    private array $elements = [];
 
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
@@ -55,9 +55,8 @@ class Context
 
     public function __destruct()
     {
-        foreach ($this->vaoVbo as $key => $vaoVbo) {
-            glDeleteVertexArrays(1, $vaoVbo['vao']);
-            glDeleteBuffers(1, $vaoVbo['vbo']);
+        foreach ($this->elements as $element) {
+            $element->delete();
         }
 
         // Free allocated any resources allocated
@@ -112,16 +111,13 @@ class Context
         $this->shaderPrograms[$name]->use();
     }
 
-    public function registerVaoVbo(string $name, mixed $VAO, mixed $VBO): void
+    public function registerElement(string $name, Element $element): void
     {
-        $this->vaoVbo[$name] = [
-            'vao' => $VAO,
-            'vbo' => $VBO,
-        ];
+        $this->elements[$name] = $element;
     }
 
     public function bindVertexArray(string $name): void
     {
-        glBindVertexArray($this->vaoVbo[$name]['vao']);
+        $this->elements[$name]->bind();
     }
 }

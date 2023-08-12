@@ -9,10 +9,9 @@ class ShaderProgram
     private mixed $program;
 
     public function __construct(
-        private string $vertexName,
-        private string $fragmentName
-    )
-    {
+        private readonly string $vertexName,
+        private readonly string $fragmentName
+    ) {
         $vertexShader = $this->compileVertex();
         $fragShader = $this->compileFragment();
 
