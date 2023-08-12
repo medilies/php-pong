@@ -98,7 +98,7 @@ $context->loop(function (Context $context) use ($VAO) {
     // for the coming draw calls.
     $context->useShaderProgram('cube');
 
-    // define the model matrix aka the cubes postion in the world
+    // define the model matrix aka the cubes position in the world
     $model = new Mat4;
     // because we want the cube to spin, we rotate the matrix based
     // on the elapsed time.

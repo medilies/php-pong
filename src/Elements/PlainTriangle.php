@@ -1,13 +1,9 @@
 <?php
 
-namespace Medilies\TryingPhpGlfw;
+namespace Medilies\TryingPhpGlfw\Elements;
 
-class Element
+class PlainTriangle extends Element
 {
-    private readonly mixed $VAO;
-
-    private readonly mixed $VBO;
-
     public function __construct()
     {
         $this->createVertexArray();
@@ -16,8 +12,6 @@ class Element
         // bind the buffer to our VAO
         glBindVertexArray($this->VAO);
         glBindBuffer(GL_ARRAY_BUFFER, $this->VBO);
-
-        // TODO: make the following logic configurable
 
         // declare vertices for a single triangle and the colors for each vertex
         $buffer = new \GL\Buffer\FloatBuffer([
@@ -44,32 +38,5 @@ class Element
         // unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
-    }
-
-    private function createVertexArray(): void
-    {
-        // create a vertex array (VertexArrayObject -> VAO)
-        glGenVertexArrays(1, $VAO);
-
-        $this->VAO = $VAO;
-    }
-
-    private function createVertexBuffer(): void
-    {
-        // create a buffer for our vertices (VertexBufferObject -> VBO)
-        glGenBuffers(1, $VBO);
-
-        $this->VBO = $VBO;
-    }
-
-    public function bind()
-    {
-        glBindVertexArray($this->VAO);
-    }
-
-    public function delete(): void
-    {
-        glDeleteVertexArrays(1, $this->VAO);
-        glDeleteBuffers(1, $this->VBO);
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Element;
+use Medilies\TryingPhpGlfw\Elements\PlainTriangle;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 
 include './vendor/autoload.php';
@@ -16,7 +16,7 @@ $context->init();
 $shaderProgram = new ShaderProgram('triangle', 'triangle');
 $context->registerShaderProgram('triangle', $shaderProgram);
 
-$element = new Element;
+$element = new PlainTriangle;
 $context->registerElement('triangle', $element);
 
 // ----------------------------------------------------------------------------

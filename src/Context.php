@@ -4,6 +4,7 @@ namespace Medilies\TryingPhpGlfw;
 
 use Exception;
 use Medilies\TryingPhpGlfw\Common\BasicSingletonTrait;
+use Medilies\TryingPhpGlfw\Elements\Element;
 
 class Context
 {
