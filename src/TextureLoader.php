@@ -6,14 +6,13 @@ use GL\Texture\Texture2D;
 
 class TextureLoader
 {
-    public static function load(string $path)
+    public static function load(string $path): bool
     {
         // generate a texture, load it from a file and bind it
         glGenTextures(1, $texture);
         glActiveTexture(GL_TEXTURE0);
         // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
         glBindTexture(GL_TEXTURE_2D, $texture);
-        // ? $texture not needed after
 
         // set the texture wrapping parameters
         // here we basically tell opengl to repeat the texture, so when sampling out of bounds
@@ -43,5 +42,7 @@ class TextureLoader
 
         // this call generates the mipmap for the texture
         glGenerateMipmap(GL_TEXTURE_2D);
+
+        return $texture;
     }
 }
