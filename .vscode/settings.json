@@ -3,6 +3,8 @@
         "editor.formatOnSave": false
     },
     "cSpell.words": [
-        "glsl"
+        "glsl",
+        "Programiv",
+        "Shaderiv"
     ]
 }

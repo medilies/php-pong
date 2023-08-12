@@ -10,14 +10,11 @@ $context = Context::make();
 
 $context->init();
 
-// Shader Setup
 // ----------------------------------------------------------------------------
+// Register shaders and elements
 
 $shaderProgram = new ShaderProgram('triangle', 'triangle');
 $context->registerShaderProgram('triangle', $shaderProgram);
-
-// Buffer and data setup
-// ----------------------------------------------------------------------------
 
 $element = new Element;
 $context->registerElement('triangle', $element);
