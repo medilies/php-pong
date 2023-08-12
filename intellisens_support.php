@@ -1,7 +1,16 @@
 <?php
 
+const GL_SIZEOF_FLOAT = 6;
+
 class GLFWwindow
 {
 }
 
-const GL_SIZEOF_FLOAT = 6;
+namespace GL\Math {
+    class GLM
+    {
+        public static function radians(float $f): float
+        {
+        }
+    }
+}
