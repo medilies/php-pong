@@ -34,7 +34,13 @@ class Window
 
         // Cannot do this before glfwMakeContextCurrent
         // ? related to GLAD
-        echo glGetString(GL_VERSION).PHP_EOL;
+        echo '=================================================='.PHP_EOL;
+        echo 'Vendor: '.glGetString(GL_VENDOR).PHP_EOL;
+        echo 'Renderer: '.glGetString(GL_RENDERER).PHP_EOL;
+        echo 'Version: '.glGetString(GL_VERSION).PHP_EOL;
+        echo 'Shading language version: '.glGetString(GL_SHADING_LANGUAGE_VERSION).PHP_EOL;
+        echo '=================================================='.PHP_EOL;
+        // var_dump(glGet(GL_EXTENSIONS, 0));
     }
 
     public function shouldClose(): int

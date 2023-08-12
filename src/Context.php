@@ -20,7 +20,8 @@ class Context
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
     {
-        echo glfwGetVersionString().PHP_EOL;
+        echo '=================================================='.PHP_EOL;
+        echo 'GLFW version: '.glfwGetVersionString().PHP_EOL;
 
         // Must initialize the GLFW library before using most GLFW functions.
         if (! glfwInit()) {
