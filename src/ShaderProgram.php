@@ -80,4 +80,9 @@ class ShaderProgram
     {
         return $this->program;
     }
+
+    public function delete()
+    {
+        glDeleteProgram($this->program);
+    }
 }

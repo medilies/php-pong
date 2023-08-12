@@ -1,18 +1,14 @@
 <?php
 
-namespace Medilies\TryingPhpGlfw\Elements;
+namespace Medilies\TryingPhpGlfw\Vertexes;
 
 use GL\Buffer\FloatBuffer;
 
-class UvCube extends Element
+class UvCube extends BaseVertex
 {
     public function __construct()
     {
-        $this->createVertexArray();
-        $this->createVertexBuffer();
-
-        glBindVertexArray($this->VAO); // * common
-        glBindBuffer(GL_ARRAY_BUFFER, $this->VBO); // * common
+        $this->generateAndBind();
 
         // create a floating point buffer with the vertex and uv data
         // of a cube with a 1x1x1 size.
@@ -63,18 +59,34 @@ class UvCube extends Element
         glBufferData(GL_ARRAY_BUFFER, $vertices, GL_STATIC_DRAW);
 
         // declare the vertex attributes
+        // TODO: abstract behavior when having position, position+color ...
+        $indexPosition = 0;
+        $indexColor = 1;
+        $positionSize = 3;
+        $colorSize = 2;
+
         // positions
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 5, 0);
-        glEnableVertexAttribArray(0); // * common
+        glVertexAttribPointer(
+            $indexPosition,
+            $positionSize,
+            GL_FLOAT,
+            GL_FALSE,
+            GL_SIZEOF_FLOAT * ($positionSize + $colorSize),
+            0
+        );
+        glEnableVertexAttribArray($indexPosition);
 
-        // uv
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 5, GL_SIZEOF_FLOAT * 3);
-        glEnableVertexAttribArray(1); // * common
+        // color
+        glVertexAttribPointer(
+            $indexColor,
+            $colorSize,
+            GL_FLOAT,
+            GL_FALSE,
+            GL_SIZEOF_FLOAT * ($positionSize + $colorSize),
+            GL_SIZEOF_FLOAT * $positionSize
+        );
+        glEnableVertexAttribArray($indexColor);
 
-        // ! the only unique parts are vertices buffer value and (positions,color) pointers definitions
-
-        // unbind
-        glBindBuffer(GL_ARRAY_BUFFER, 0); // * common
-        glBindVertexArray(0); // * common
+        $this->unbind();
     }
 }

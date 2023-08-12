@@ -4,7 +4,7 @@ namespace Medilies\TryingPhpGlfw;
 
 use Exception;
 use Medilies\TryingPhpGlfw\Common\BasicSingletonTrait;
-use Medilies\TryingPhpGlfw\Elements\Element;
+use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Context
 {
@@ -20,7 +20,7 @@ class Context
 
     private array $shaderPrograms = [];
 
-    private array $elements = [];
+    private array $vertexes = [];
 
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
@@ -54,13 +54,19 @@ class Context
         }
     }
 
+    /**
+     * Free allocated resources
+     */
     public function __destruct()
     {
-        foreach ($this->elements as $element) {
-            $element->delete();
+        foreach ($this->vertexes as $vertex) {
+            $vertex->delete();
         }
 
-        // Free allocated any resources allocated
+        foreach ($this->shaderPrograms as $shaderProgram) {
+            $shaderProgram->delete();
+        }
+
         glfwTerminate();
     }
 
@@ -117,13 +123,13 @@ class Context
         return $this->shaderPrograms[$name]->getRef();
     }
 
-    public function registerElement(string $name, Element $element): void
+    public function registerVertex(string $name, BaseVertex $vertex): void
     {
-        $this->elements[$name] = $element;
+        $this->vertexes[$name] = $vertex;
     }
 
     public function bindVertexArray(string $name): void
     {
-        $this->elements[$name]->bind();
+        $this->vertexes[$name]->bind();
     }
 }

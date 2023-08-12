@@ -4,7 +4,7 @@ use GL\Math\GLM;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Elements\UvCube;
+use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 
 require __DIR__.'/../vendor/autoload.php';
@@ -15,7 +15,7 @@ $context->init();
 $shaderProgram = new ShaderProgram('cube', 'cube');
 $context->registerShaderProgram('cube', $shaderProgram);
 
-$context->registerElement('uv_cube', new UvCube);
+$context->registerVertex('uv_cube', new UvCube);
 
 // update the viewport
 glViewport(0, 0, 800, 600);

@@ -7,7 +7,7 @@ use GL\Math\GLM;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Elements\UvCube;
+use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 use Medilies\TryingPhpGlfw\TextureLoader;
 
@@ -17,7 +17,7 @@ $context->init();
 $shaderProgram = new ShaderProgram('instancing', 'instancing');
 $context->registerShaderProgram('instancing', $shaderProgram);
 
-$context->registerElement('uv_cube', new UvCube);
+$context->registerVertex('uv_cube', new UvCube);
 
 // ! --------------
 
