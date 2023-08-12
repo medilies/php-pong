@@ -123,7 +123,7 @@ $context->loop(function (Context $context) {
 
     // use the shader, will active the given shader program
     // for the coming draw calls.
-    $context->useShaderProgram('triangle');
+    $context->useShaderProgramIfExists('triangle');
 
     // bind & draw the vertex array
     $context->bindVertexArray('triangle');

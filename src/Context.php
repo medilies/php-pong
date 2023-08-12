@@ -103,6 +103,16 @@ class Context
         glUseProgram($this->shaderPrograms[$name]);
     }
 
+    public function useShaderProgramIfExists(string $name): void
+    {
+        if(!isset($this->shaderPrograms[$name]))
+        {
+            return;
+        }
+
+        glUseProgram($this->shaderPrograms[$name]);
+    }
+
     public function registerVaoVbo(string $name, mixed $VAO, mixed $VBO): void
     {
         $this->vaoVbo[$name] = [
