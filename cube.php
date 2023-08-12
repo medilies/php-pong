@@ -17,6 +17,7 @@ $context->init();
 // compile a simple shader to project the cube
 // and output the uv colors to the fragment shader
 $shaderProgram = new ShaderProgram('cube', 'cube');
+$context->registerShaderProgram('cube', $shaderProgram);
 
 // create a floating point buffer with the vertex and uv data
 // of a cube with a 1x1x1 size.
@@ -94,15 +95,14 @@ glEnable(GL_DEPTH_TEST);
 
 // Main Loop
 // ----------------------------------------------------------------------------
-while (!glfwWindowShouldClose($context->getCurrentWindow()->getRef()))
-{
+$context->loop(function(Context $context) use ($VAO) {
     glClearColor(0, 0, 0, 1);
     // note how we are clearing both the DEPTH and COLOR buffers.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // use the shader, will active the given shader program
     // for the coming draw calls.
-    $shaderProgram->use();
+    $context->useShaderProgram('cube');
 
     // define the model matrix aka the cubes postion in the world
     $model = new Mat4;
@@ -122,20 +122,14 @@ while (!glfwWindowShouldClose($context->getCurrentWindow()->getRef()))
 
     // now set the uniform variables in the shader.
     // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
-    glUniformMatrix4f(glGetUniformLocation($shaderProgram->getRef(), "model"), GL_FALSE, $model);
-    glUniformMatrix4f(glGetUniformLocation($shaderProgram->getRef(), "view"), GL_FALSE, $view);
-    glUniformMatrix4f(glGetUniformLocation($shaderProgram->getRef(), "projection"), GL_FALSE, $projection);
+    glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), "model"), GL_FALSE, $model);
+    glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), "view"), GL_FALSE, $view);
+    glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), "projection"), GL_FALSE, $projection);
 
     // bind & draw the vertex array
     glBindVertexArray($VAO);
     glDrawArrays(GL_TRIANGLES, 0, 36);
-
-    // swap the windows framebuffer and
-    // poll queued window events.
-    glfwSwapBuffers($context->getCurrentWindow()->getRef());
-    glfwPollEvents();
-}
-
+});
 
 // stop & cleanup
 glDeleteVertexArrays(1, $VAO);

@@ -111,6 +111,11 @@ class Context
         $this->shaderPrograms[$name]->use();
     }
 
+    public function getShaderProgramRef(string $name): int
+    {
+        return $this->shaderPrograms[$name]->getRef();
+    }
+
     public function registerElement(string $name, Element $element): void
     {
         $this->elements[$name] = $element;
