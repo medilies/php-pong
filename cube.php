@@ -7,6 +7,7 @@
 use GL\Math\{GLM, Vec3, Vec4, Mat4};
 use GL\Buffer\FloatBuffer;
 use Medilies\TryingPhpGlfw\Context;
+use Medilies\TryingPhpGlfw\ShaderProgram;
 
 require __DIR__.'/vendor/autoload.php';
 
@@ -15,10 +16,7 @@ $context->init();
 
 // compile a simple shader to project the cube
 // and output the uv colors to the fragment shader
-$cubeShader = ExampleHelper::compileShader(
-    file_get_contents(__DIR__.'/src/assets/shaders/vertex/cube.glsl'),
-    file_get_contents(__DIR__.'/src/assets/shaders/fragment/cube.glsl')
-);
+$shaderProgram = new ShaderProgram('cube', 'cube');
 
 // create a floating point buffer with the vertex and uv data
 // of a cube with a 1x1x1 size.
@@ -104,7 +102,7 @@ while (!glfwWindowShouldClose($context->getCurrentWindow()->getRef()))
 
     // use the shader, will active the given shader program
     // for the coming draw calls.
-    glUseProgram($cubeShader);
+    $shaderProgram->use();
 
     // define the model matrix aka the cubes postion in the world
     $model = new Mat4;
@@ -124,9 +122,9 @@ while (!glfwWindowShouldClose($context->getCurrentWindow()->getRef()))
 
     // now set the uniform variables in the shader.
     // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
-    glUniformMatrix4f(glGetUniformLocation($cubeShader, "model"), GL_FALSE, $model);
-    glUniformMatrix4f(glGetUniformLocation($cubeShader, "view"), GL_FALSE, $view);
-    glUniformMatrix4f(glGetUniformLocation($cubeShader, "projection"), GL_FALSE, $projection);
+    glUniformMatrix4f(glGetUniformLocation($shaderProgram->getRef(), "model"), GL_FALSE, $model);
+    glUniformMatrix4f(glGetUniformLocation($shaderProgram->getRef(), "view"), GL_FALSE, $view);
+    glUniformMatrix4f(glGetUniformLocation($shaderProgram->getRef(), "projection"), GL_FALSE, $projection);
 
     // bind & draw the vertex array
     glBindVertexArray($VAO);

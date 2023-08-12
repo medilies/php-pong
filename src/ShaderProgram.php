@@ -75,4 +75,9 @@ class ShaderProgram
     {
         glUseProgram($this->program);
     }
+
+    public function getRef(): int
+    {
+        return $this->program;
+    }
 }
