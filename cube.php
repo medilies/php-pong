@@ -1,10 +1,10 @@
 <?php
 
-use GL\Buffer\FloatBuffer;
 use GL\Math\GLM;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
+use Medilies\TryingPhpGlfw\Elements\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 
 require __DIR__.'/vendor/autoload.php';
@@ -15,72 +15,7 @@ $context->init();
 $shaderProgram = new ShaderProgram('cube', 'cube');
 $context->registerShaderProgram('cube', $shaderProgram);
 
-// create a floating point buffer with the vertex and uv data
-// of a cube with a 1x1x1 size.
-$verticies = new FloatBuffer([
-    -0.5, -0.5, -0.5,  0.0, 0.0,
-    0.5, -0.5, -0.5,  1.0, 0.0,
-    0.5,  0.5, -0.5,  1.0, 1.0,
-    0.5,  0.5, -0.5,  1.0, 1.0,
-    -0.5,  0.5, -0.5,  0.0, 1.0,
-    -0.5, -0.5, -0.5,  0.0, 0.0,
-
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-    0.5, -0.5,  0.5,  1.0, 0.0,
-    0.5,  0.5,  0.5,  1.0, 1.0,
-    0.5,  0.5,  0.5,  1.0, 1.0,
-    -0.5,  0.5,  0.5,  0.0, 1.0,
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-
-    -0.5,  0.5,  0.5,  1.0, 0.0,
-    -0.5,  0.5, -0.5,  1.0, 1.0,
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-    -0.5,  0.5,  0.5,  1.0, 0.0,
-
-    0.5,  0.5,  0.5,  1.0, 0.0,
-    0.5,  0.5, -0.5,  1.0, 1.0,
-    0.5, -0.5, -0.5,  0.0, 1.0,
-    0.5, -0.5, -0.5,  0.0, 1.0,
-    0.5, -0.5,  0.5,  0.0, 0.0,
-    0.5,  0.5,  0.5,  1.0, 0.0,
-
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-    0.5, -0.5, -0.5,  1.0, 1.0,
-    0.5, -0.5,  0.5,  1.0, 0.0,
-    0.5, -0.5,  0.5,  1.0, 0.0,
-    -0.5, -0.5,  0.5,  0.0, 0.0,
-    -0.5, -0.5, -0.5,  0.0, 1.0,
-
-    -0.5,  0.5, -0.5,  0.0, 1.0,
-    0.5,  0.5, -0.5,  1.0, 1.0,
-    0.5,  0.5,  0.5,  1.0, 0.0,
-    0.5,  0.5,  0.5,  1.0, 0.0,
-    -0.5,  0.5,  0.5,  0.0, 0.0,
-    -0.5,  0.5, -0.5,  0.0, 1.0,
-]);
-
-// create a vertex array object and upload the vertices
-glGenVertexArrays(1, $VAO);
-glGenBuffers(1, $VBO);
-
-glBindVertexArray($VAO);
-glBindBuffer(GL_ARRAY_BUFFER, $VBO);
-glBufferData(GL_ARRAY_BUFFER, $verticies, GL_STATIC_DRAW);
-
-// declare the vertex attributes
-// positions
-glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 5, 0);
-glEnableVertexAttribArray(0);
-
-// uv
-glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 5, GL_SIZEOF_FLOAT * 3);
-glEnableVertexAttribArray(1);
-
-// unbind
-glBindBuffer(GL_ARRAY_BUFFER, 0);
-glBindVertexArray(0);
+$context->registerElement('uv_cube', new UvCube);
 
 // update the viewport
 glViewport(0, 0, 800, 600);
@@ -89,7 +24,7 @@ glViewport(0, 0, 800, 600);
 // triangles
 glEnable(GL_DEPTH_TEST);
 
-$context->loop(function (Context $context) use ($VAO) {
+$context->loop(function (Context $context) {
     glClearColor(0, 0, 0, 1);
     // note how we are clearing both the DEPTH and COLOR buffers.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -121,9 +56,6 @@ $context->loop(function (Context $context) use ($VAO) {
     glUniformMatrix4f(glGetUniformLocation($context->getShaderProgramRef('cube'), 'projection'), GL_FALSE, $projection);
 
     // bind & draw the vertex array
-    glBindVertexArray($VAO);
+    $context->bindVertexArray('uv_cube');
     glDrawArrays(GL_TRIANGLES, 0, 36);
 });
-
-glDeleteVertexArrays(1, $VAO);
-glDeleteBuffers(1, $VBO);
