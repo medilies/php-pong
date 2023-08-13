@@ -24,6 +24,8 @@ abstract class BaseVertex
 
     abstract protected function setAttributesLayout(): void;
 
+    abstract public function draw(): void;
+
     /**
      * create a vertex array (VertexArrayObject -> VAO)
      * create a buffer for our vertices (VertexBufferObject -> VBO)

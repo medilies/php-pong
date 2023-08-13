@@ -33,6 +33,5 @@ $context->loop(function (Context $context) {
     glClearColor(sin($mouseX / 300), sin($mouseY / 300), cos($mouseY / 300), 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // bind & draw the vertex array
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    $context->drawBoundedVertex();
 });

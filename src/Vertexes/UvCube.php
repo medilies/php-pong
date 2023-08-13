@@ -88,4 +88,9 @@ class UvCube extends BaseVertex
         );
         glEnableVertexAttribArray($indexColor);
     }
+
+    public function draw(): void
+    {
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+    }
 }

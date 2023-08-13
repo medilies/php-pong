@@ -24,6 +24,8 @@ class Context
     /** @var array<string, BaseVertex> */
     private array $vertexes = [];
 
+    private string $currentVertexName = '';
+
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
     {
@@ -127,11 +129,24 @@ class Context
 
     public function registerVertex(string $name, BaseVertex $vertex): void
     {
+        // TODO: must not be ''
         $this->vertexes[$name] = $vertex;
     }
 
     public function bindVertexArray(string $name): void
     {
         $this->vertexes[$name]->bind();
+        $this->currentVertexName = $name;
+    }
+
+    public function unbindVertexArray(): void
+    {
+        glBindVertexArray(0);
+        $this->currentVertexName = '';
+    }
+
+    public function drawBoundedVertex(): void
+    {
+        $this->vertexes[$this->currentVertexName]->draw();
     }
 }

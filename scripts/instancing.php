@@ -42,12 +42,16 @@ glBufferData(GL_ARRAY_BUFFER, $matrices, GL_STATIC_DRAW);
 
 // define additional vertex attributes for the instancing
 $context->bindVertexArray('uv_cube');
+
 glEnableVertexAttribArray(2);
 glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 16, 0);
+
 glEnableVertexAttribArray(3);
 glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 16, (GL_SIZEOF_FLOAT * 4) * 1);
+
 glEnableVertexAttribArray(4);
 glVertexAttribPointer(4, 4, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 16, (GL_SIZEOF_FLOAT * 4) * 2);
+
 glEnableVertexAttribArray(5);
 glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, GL_SIZEOF_FLOAT * 16, (GL_SIZEOF_FLOAT * 4) * 3);
 
@@ -56,7 +60,7 @@ glVertexAttribDivisor(3, 1);
 glVertexAttribDivisor(4, 1);
 glVertexAttribDivisor(5, 1);
 
-glBindVertexArray(0);
+$context->unbindVertexArray();
 
 // ! --------------
 
@@ -79,7 +83,6 @@ glEnable(GL_DEPTH_TEST);
 
 $context->loop(function(Context $context) use ($c3size, $matrices) {
     glClearColor(0, 0, 0, 1);
-    //
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     //
@@ -93,7 +96,11 @@ $context->loop(function(Context $context) use ($c3size, $matrices) {
     $view = new Mat4;
     // we rotate the camera around the y axis and always look at the origin
     // also we zoom in and out for nice effect
-    $view->lookAt(new Vec3(sin($t) * $dist, 0.0, cos($t) * $dist), new Vec3(0.0, 0.0, 1.0), new Vec3(0.0, 1.0, 0.0));
+    $view->lookAt(
+        new Vec3(sin($t) * $dist, 0.0, cos($t) * $dist),
+        new Vec3(0.0, 0.0, 1.0),
+        new Vec3(0.0, 1.0, 0.0)
+    );
 
     //
     $projection = new Mat4;
@@ -113,7 +120,7 @@ $context->loop(function(Context $context) use ($c3size, $matrices) {
 
     // bind & draw the vertex array
     $context->bindVertexArray('uv_cube');
-    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, $matrices->size() / 16);
-    glBindVertexArray(0);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glDrawArraysInstanced(GL_TRIANGLES, 0, 36, $matrices->size() / 16); // TODO: move to Vertex
+    $context->unbindVertexArray();
+    glDrawArrays(GL_TRIANGLES, 0, 36); // ? applied on instanced
 });

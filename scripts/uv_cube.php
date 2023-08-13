@@ -75,5 +75,5 @@ $context->loop(function (Context $context) {
 
     // bind & draw the vertex array
     $context->bindVertexArray('uv_cube');
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    $context->drawBoundedVertex();
 });
