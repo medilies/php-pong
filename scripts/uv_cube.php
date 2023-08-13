@@ -4,8 +4,8 @@ use GL\Math\GLM;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
+use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 
 require __DIR__.'/../vendor/autoload.php';
 

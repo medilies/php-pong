@@ -7,9 +7,9 @@ use GL\Math\GLM;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 use Medilies\TryingPhpGlfw\TextureLoader;
+use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 
 $context = Context::make();
 $context->init();
@@ -81,7 +81,7 @@ glViewport(0, 0, 800, 600);
 // triangles
 glEnable(GL_DEPTH_TEST);
 
-$context->loop(function(Context $context) use ($c3size, $matrices) {
+$context->loop(function (Context $context) use ($c3size, $matrices) {
     glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

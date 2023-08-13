@@ -1,8 +1,8 @@
 <?php
 
 use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Vertexes\PlainTriangle;
 use Medilies\TryingPhpGlfw\ShaderProgram;
+use Medilies\TryingPhpGlfw\Vertexes\PlainTriangle;
 
 include __DIR__.'/../vendor/autoload.php';
 
