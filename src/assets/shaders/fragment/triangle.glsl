@@ -2,7 +2,6 @@
 out vec4 fragment_color;
 in vec4 pcolor;
 
-void main()
-{
+void main() {
     fragment_color = pcolor;
 }
