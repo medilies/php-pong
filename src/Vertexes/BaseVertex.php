@@ -11,6 +11,8 @@ abstract class BaseVertex
 
     abstract public function __construct();
 
+    abstract protected function setBufferData(): void;
+
     /**
      * create a vertex array (VertexArrayObject -> VAO)
      * create a buffer for our vertices (VertexBufferObject -> VBO)

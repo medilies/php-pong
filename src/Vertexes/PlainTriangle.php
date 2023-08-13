@@ -10,16 +10,7 @@ class PlainTriangle extends BaseVertex
     {
         $this->generateAndBind();
 
-        // declare vertices for a single triangle and the colors for each vertex
-        $buffer = new FloatBuffer([
-            // positions     // colors
-            0.5, -0.5, 0.0,  1.0, 0.0, 0.0,  // bottom right
-            -0.5, -0.5, 0.0,  0.0, 1.0, 0.0,  // bottom let
-            0.0,  0.5, 0.0,  0.0, 0.0, 1.0,   // top
-        ]);
-
-        // now we can upload our float buffer to the currently bound VBO
-        glBufferData(GL_ARRAY_BUFFER, $buffer, GL_STATIC_DRAW);
+        $this->setBufferData();
 
         // in the next step we have to define the vertex attributes, in simpler
         // words tell openGL how the data we just uploaded should be split and iterated over.
@@ -53,5 +44,19 @@ class PlainTriangle extends BaseVertex
         glEnableVertexAttribArray($indexColor);
 
         $this->unbind();
+    }
+
+    protected function setBufferData(): void
+    {
+        // declare vertices for a single triangle and the colors for each vertex
+        $buffer = new FloatBuffer([
+            // positions     // colors
+            0.5, -0.5, 0.0,  1.0, 0.0, 0.0,  // bottom right
+            -0.5, -0.5, 0.0,  0.0, 1.0, 0.0,  // bottom let
+            0.0,  0.5, 0.0,  0.0, 0.0, 1.0,   // top
+        ]);
+
+        // now we can upload our float buffer to the currently bound VBO
+        glBufferData(GL_ARRAY_BUFFER, $buffer, GL_STATIC_DRAW);
     }
 }
