@@ -6,16 +6,22 @@ use GL\Buffer\FloatBuffer;
 
 class PlainTriangle extends BaseVertex
 {
-    public function __construct()
+    protected function setBufferData(): void
     {
-        $this->generateAndBind();
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            new FloatBuffer([
+                // positions     // colors
+                0.5, -0.5, 0.0,  1.0, 0.0, 0.0,  // bottom right
+                -0.5, -0.5, 0.0,  0.0, 1.0, 0.0,  // bottom let
+                0.0,  0.5, 0.0,  0.0, 0.0, 1.0,   // top
+            ]),
+            GL_STATIC_DRAW
+        );
+    }
 
-        $this->setBufferData();
-
-        // in the next step we have to define the vertex attributes, in simpler
-        // words tell openGL how the data we just uploaded should be split and iterated over.
-
-        // declare the vertex attributes
+    protected function setAttributesLayout(): void
+    {
         $indexPosition = 0;
         $indexColor = 1;
         $positionSize = 3;
@@ -42,21 +48,5 @@ class PlainTriangle extends BaseVertex
             GL_SIZEOF_FLOAT * $positionSize
         );
         glEnableVertexAttribArray($indexColor);
-
-        $this->unbind();
-    }
-
-    protected function setBufferData(): void
-    {
-        // declare vertices for a single triangle and the colors for each vertex
-        $buffer = new FloatBuffer([
-            // positions     // colors
-            0.5, -0.5, 0.0,  1.0, 0.0, 0.0,  // bottom right
-            -0.5, -0.5, 0.0,  0.0, 1.0, 0.0,  // bottom let
-            0.0,  0.5, 0.0,  0.0, 0.0, 1.0,   // top
-        ]);
-
-        // now we can upload our float buffer to the currently bound VBO
-        glBufferData(GL_ARRAY_BUFFER, $buffer, GL_STATIC_DRAW);
     }
 }

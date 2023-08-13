@@ -9,9 +9,20 @@ abstract class BaseVertex
 
     protected readonly mixed $VBO;
 
-    abstract public function __construct();
+    public function __construct()
+    {
+        $this->generateAndBind();
+
+        $this->setBufferData();
+
+        $this->setAttributesLayout();
+
+        $this->unbind();
+    }
 
     abstract protected function setBufferData(): void;
+
+    abstract protected function setAttributesLayout(): void;
 
     /**
      * create a vertex array (VertexArrayObject -> VAO)
@@ -19,11 +30,11 @@ abstract class BaseVertex
      */
     protected function generateAndBind(): void
     {
-        glGenVertexArrays(1, $this->VAO);
         glGenBuffers(1, $this->VBO);
+        glGenVertexArrays(1, $this->VAO);
 
-        glBindVertexArray($this->VAO);
         glBindBuffer(GL_ARRAY_BUFFER, $this->VBO);
+        glBindVertexArray($this->VAO);
     }
 
     public function bind()
