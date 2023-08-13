@@ -1,7 +1,12 @@
+
+// ---
+
 #version 330 core
-out vec4 fragment_color;
 
 in vec2 v_uv;
+
+out vec4 fragment_color;
+
 uniform sampler2D logo;
 
 void main() {

@@ -25,16 +25,20 @@ class ShaderProgram
 
     private function compileVertex(string $vertexName): int
     {
-        $shaderCode = file_get_contents(__DIR__."/assets/shaders/vertex/{$vertexName}.glsl");
+        $shaderCode = file_get_contents(__DIR__."/resources/shaders/{$vertexName}.glsl");
 
-        return $this->compileShader(GL_VERTEX_SHADER, $shaderCode);
+        $shaderCode = explode('// ---', $shaderCode);
+
+        return $this->compileShader(GL_VERTEX_SHADER, $shaderCode[0]);
     }
 
     private function compileFragment(string $fragmentName): int
     {
-        $shaderCode = file_get_contents(__DIR__."/assets/shaders/fragment/{$fragmentName}.glsl");
+        $shaderCode = file_get_contents(__DIR__."/resources/shaders/{$fragmentName}.glsl");
 
-        return $this->compileShader(GL_FRAGMENT_SHADER, $shaderCode);
+        $shaderCode = explode('// ---', $shaderCode);
+
+        return $this->compileShader(GL_FRAGMENT_SHADER, $shaderCode[1]);
     }
 
     private function compileShader(int $type, string $shaderCode): int
