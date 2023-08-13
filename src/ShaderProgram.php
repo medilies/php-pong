@@ -71,6 +71,9 @@ class ShaderProgram
         }
     }
 
+    /**
+     * Activate this shader program for the coming draw calls.
+     */
     public function use(): void
     {
         glUseProgram($this->program);

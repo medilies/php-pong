@@ -18,8 +18,10 @@ class Context
 
     private Window $window;
 
+    /** @var array<string, ShaderProgram> */
     private array $shaderPrograms = [];
 
+    /** @var array<string, BaseVertex> */
     private array $vertexes = [];
 
     // GLFW does not inherently support multiple contexts within a single instance of the library.
