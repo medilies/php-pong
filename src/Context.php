@@ -40,15 +40,10 @@ class Context
         if (! glfwInit()) {
             throw new Exception('GLFW could not be initialized!');
         }
-    }
 
-    public function init(): void
-    {
         // setting the swap interval to "1" basically enabled vsync.
         // more correctly it defines how many screen updates to wait for after swapBuffers has been called
         glfwSwapInterval(1);
-
-        $this->createWindow();
     }
 
     public function loop(callable $callback): void
@@ -82,8 +77,10 @@ class Context
     // Window
     // ===============================================
 
-    private function createWindow(): static
+    public function createWindow($width, $height, $title): static
     {
+        // ? allow many calls
+        // TODO: move logic to window build
         // OpenGL spec
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, $this->max_version);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, $this->min_version);
@@ -95,7 +92,7 @@ class Context
         // Required to run on Mac OS X
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-        $this->window = new Window(800, 600, 'Hello PHP GLFW');
+        $this->window = new Window($width, $height, $title);
 
         $this->window->makeCurrentContext();
 
@@ -120,6 +117,16 @@ class Context
     public function closeCurrentWindow(): void
     {
         $this->getCurrentWindow()->close();
+    }
+
+    public function getCurrentWindowWidth(): int
+    {
+        return $this->getCurrentWindow()->getWidth();
+    }
+
+    public function getCurrentWindowHeight(): int
+    {
+        return $this->getCurrentWindow()->getHeight();
     }
 
     // ===============================================

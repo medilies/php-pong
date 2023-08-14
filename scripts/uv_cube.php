@@ -10,7 +10,7 @@ use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 require __DIR__.'/../vendor/autoload.php';
 
 $context = Context::make();
-$context->init();
+$context->createWindow(800, 600, 'Not Ice Cube but UV cube');
 
 $shaderProgram = new ShaderProgram('cube', 'cube');
 $context->registerShaderProgram('cube', $shaderProgram);
@@ -58,7 +58,12 @@ function setUniforms(Context $context)
     // you can imagine the camera is being moved back by 2 units here.
     $view->translate(new Vec3(-0.0, 0.0, -2));
 
-    $projection->perspective(GLM::radians(70.0), 800 / 600, 0.1, 100.0);
+    $projection->perspective(
+        GLM::radians(70.0),
+        $context->getCurrentWindowWidth() / $context->getCurrentWindowHeight(),
+        0.1,
+        100.0
+    );
 
     // now set the uniform variables in the shader.
     $context->setUniform4f('model', GL_FALSE, $model);

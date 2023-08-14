@@ -10,7 +10,7 @@ use Medilies\TryingPhpGlfw\ShaderProgram;
 use Medilies\TryingPhpGlfw\Vertexes\PongPad;
 
 $c = Context::make();
-$c->init();
+$c->createWindow(800, 600, 'PONG');
 
 $c->registerShaderProgram('pong', new ShaderProgram('pong', 'pong'));
 $c->registerVertex('pad', new PongPad);

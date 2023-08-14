@@ -8,7 +8,7 @@ include __DIR__.'/../vendor/autoload.php';
 
 $context = Context::make();
 
-$context->init();
+$context->createWindow(800, 600, 'TRIANGLE');
 
 $shaderProgram = new ShaderProgram('triangle', 'triangle');
 $context->registerShaderProgram('triangle', $shaderProgram);

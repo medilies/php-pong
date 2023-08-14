@@ -11,7 +11,7 @@ use Medilies\TryingPhpGlfw\TextureLoader;
 use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 
 $context = Context::make();
-$context->init();
+$context->createWindow(800, 600, 'textured cube');
 
 $shaderProgram = new ShaderProgram('cube', 'textured_cube');
 $context->registerShaderProgram('textured_cube', $shaderProgram);
@@ -51,7 +51,12 @@ $context->loop(function (Context $context) {
 
     $view->translate(new Vec3(0.0, 0.0, -2));
 
-    $projection->perspective(GLM::radians(70.0), 800 / 600, 0.1, 100.0);
+    $projection->perspective(
+        GLM::radians(70.0),
+        $context->getCurrentWindowWidth() / $context->getCurrentWindowHeight(),
+        0.1,
+        100.0
+    );
 
     $context->setUniform4f('model', GL_FALSE, $model);
     $context->setUniform4f('view', GL_FALSE, $view);

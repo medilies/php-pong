@@ -12,7 +12,7 @@ use Medilies\TryingPhpGlfw\TextureLoader;
 use Medilies\TryingPhpGlfw\Vertexes\UvCube;
 
 $context = Context::make();
-$context->init();
+$context->createWindow(800, 600, 'instancing');
 
 $shaderProgram = new ShaderProgram('instancing', 'instancing');
 $context->registerShaderProgram('instancing', $shaderProgram);
@@ -103,7 +103,12 @@ $context->loop(function (Context $context) use ($c3size, $matrices) {
 
     //
     $projection = new Mat4;
-    $projection->perspective(GLM::radians(45.0), 800 / 600, 1.0, 10000.0);
+    $projection->perspective(
+        GLM::radians(45.0),
+        $context->getCurrentWindowWidth() / $context->getCurrentWindowHeight(),
+        1.0,
+        10000.0
+    );
 
     //
     glUniformMatrix4f(
