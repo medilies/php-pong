@@ -12,13 +12,13 @@ class PongPad extends BaseVertex
             GL_ARRAY_BUFFER,
             new FloatBuffer([
                 // positions     // colors
-                 0.5,  0.1,  0.0, 0.0, 0.6,// top right
-                 0.5, -0.1,  0.0, 0.0, 0.6,// bottom right
-                -0.5,  0.1,  0.0, 0.0, 0.6,// top left
+                0.5,  0.1,  0.0, 0.0, 0.6, // top right
+                0.5, -0.1,  0.0, 0.0, 0.6, // bottom right
+                -0.5,  0.1,  0.0, 0.0, 0.6, // top left
 
-                 0.5, -0.1,  0.0, 0.0, 0.6,// bottom right
-                -0.5, -0.1,  0.0, 0.0, 0.6,// bottom left
-                -0.5,  0.1,  0.0, 0.0, 0.6,// top left
+                0.5, -0.1,  0.0, 0.0, 0.6, // bottom right
+                -0.5, -0.1,  0.0, 0.0, 0.6, // bottom left
+                -0.5,  0.1,  0.0, 0.0, 0.6, // top left
             ]),
             GL_STATIC_DRAW
         );
