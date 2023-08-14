@@ -26,23 +26,19 @@ $context->registerVertex('uv_cube', new UvCube);
 // update the viewport
 glViewport(0, 0, 800, 600);
 
-// enable depth testing, because we are rendering a 3d object with overlapping
-// triangles
+// enable depth testing, because we are rendering a 3d object with overlapping triangles
 glEnable(GL_DEPTH_TEST);
+
+$context->useShaderProgram('cube');
+$context->bindVertexArray('uv_cube');
 
 $context->loop(function (Context $context) {
     glClearColor(0, 0, 0, 1);
     // note how we are clearing both the DEPTH and COLOR buffers.
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // use the shader, will active the given shader program
-    // for the coming draw calls.
-    $context->useShaderProgram('cube');
-
     setUniforms($context);
 
-    // bind & draw the vertex array
-    $context->bindVertexArray('uv_cube');
     $context->drawBoundedVertex();
 });
 

@@ -140,6 +140,8 @@ class Context
     // -----------------------------------------------
     public function registerUniformLocation(string $shaderName, string $name): int
     {
+        // TODO: do not allow override and '' name
+        // ? add method to override
         $location = glGetUniformLocation(
             $this->getShaderProgramRef($shaderName),
             $name
@@ -159,6 +161,11 @@ class Context
     {
         // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
         glUniformMatrix4f($this->getUniformLocation($name), $transpose, $matrix);
+    }
+
+    public function setUniform1i(string $name, int $value): void
+    {
+        glUniform1i($this->getUniformLocation($name), $value);
     }
 
     // ===============================================
