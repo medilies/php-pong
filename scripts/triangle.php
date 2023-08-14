@@ -21,9 +21,8 @@ $context->useShaderProgramIfExists('triangle');
 $context->bindVertexArray('triangle');
 
 $context->loop(function (Context $context) {
-    // Close input event
     if ($context->isPressed(GLFW_KEY_ESCAPE)) {
-        glfwSetWindowShouldClose($context->getCurrentWindow()->getRef(), GL_TRUE);
+        $context->closeCurrentWindow();
     }
 
     // setting the clear color to black and clearing the color buffer

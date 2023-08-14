@@ -79,7 +79,7 @@ class Context
     }
 
     // ===============================================
-    // ...
+    // Window
     // ===============================================
 
     private function createWindow(): static
@@ -115,6 +115,11 @@ class Context
     public function isPressed(int $glfwKeyCode): bool
     {
         return $this->getCurrentWindow()->isPressed($glfwKeyCode);
+    }
+
+    public function closeCurrentWindow(): void
+    {
+        $this->getCurrentWindow()->close();
     }
 
     // ===============================================

@@ -72,6 +72,12 @@ class Window
         return glfwGetKey($this->windowRef, $glfwKeyCode) === GLFW_PRESS;
     }
 
+    public function close(): void
+    {
+        // ? destroy
+        glfwSetWindowShouldClose($this->windowRef, GL_TRUE);
+    }
+
     // ===============================================
     // Init
     // ===============================================
