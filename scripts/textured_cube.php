@@ -30,7 +30,7 @@ $context->setUniform1i('logo', 0);
 
 // ! --------------
 
-glViewport(0, 0, 800, 600);
+$context->updateViewport();
 
 glEnable(GL_DEPTH_TEST);
 

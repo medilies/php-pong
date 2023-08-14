@@ -107,6 +107,11 @@ class Context
         return $this->window;
     }
 
+    public function updateViewport(): void
+    {
+        $this->getCurrentWindow()->setViewport();
+    }
+
     // ===============================================
     // Shaders
     // ===============================================

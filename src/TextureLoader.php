@@ -45,4 +45,8 @@ class TextureLoader
 
         return $texture;
     }
+
+    // instance+register
+    // bind()
+    // unbind()
 }

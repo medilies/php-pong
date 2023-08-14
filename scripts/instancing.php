@@ -74,8 +74,7 @@ glUniform1i(
     0
 );
 
-// update the viewport
-glViewport(0, 0, 800, 600);
+$context->updateViewport();
 
 // enable depth testing, because we are rendering a 3d object with overlapping
 // triangles

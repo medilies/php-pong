@@ -90,6 +90,11 @@ class Window
         }
     }
 
+    public function setViewport(): void
+    {
+        glViewport(0, 0, $this->width, $this->height);
+    }
+
     // ===============================================
     // Destroy
     // ===============================================

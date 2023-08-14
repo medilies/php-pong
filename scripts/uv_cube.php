@@ -23,8 +23,7 @@ $context->registerUniformLocation('cube', 'projection');
 
 $context->registerVertex('uv_cube', new UvCube);
 
-// update the viewport
-glViewport(0, 0, 800, 600);
+$context->updateViewport();
 
 // enable depth testing, because we are rendering a 3d object with overlapping triangles
 glEnable(GL_DEPTH_TEST);
