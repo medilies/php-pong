@@ -22,7 +22,7 @@ $context->bindVertexArray('triangle');
 
 $context->loop(function (Context $context) {
     // Close input event
-    if (glfwGetKey($context->getCurrentWindow()->getRef(), GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+    if ($context->isPressed(GLFW_KEY_ESCAPE)) {
         glfwSetWindowShouldClose($context->getCurrentWindow()->getRef(), GL_TRUE);
     }
 

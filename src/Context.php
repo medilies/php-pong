@@ -112,6 +112,11 @@ class Context
         $this->getCurrentWindow()->setViewport();
     }
 
+    public function isPressed(int $glfwKeyCode): bool
+    {
+        return $this->getCurrentWindow()->isPressed($glfwKeyCode);
+    }
+
     // ===============================================
     // Shaders
     // ===============================================

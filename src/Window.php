@@ -67,6 +67,11 @@ class Window
         return $this->windowRef;
     }
 
+    public function isPressed(int $glfwKeyCode): bool
+    {
+        return glfwGetKey($this->windowRef, $glfwKeyCode) === GLFW_PRESS;
+    }
+
     // ===============================================
     // Init
     // ===============================================
