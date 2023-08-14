@@ -3,6 +3,7 @@
 namespace Medilies\TryingPhpGlfw;
 
 use Exception;
+use GL\Math\Mat4;
 use Medilies\TryingPhpGlfw\Common\BasicSingletonTrait;
 use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
@@ -20,6 +21,9 @@ class Context
 
     /** @var array<string, ShaderProgram> */
     private array $shaderPrograms = [];
+
+    /** @var array<string, int> */
+    private array $uniformLocations = [];
 
     /** @var array<string, BaseVertex> */
     private array $vertexes = [];
@@ -103,6 +107,10 @@ class Context
         return $this->window;
     }
 
+    // ===============================================
+    // Shaders
+    // ===============================================
+
     public function registerShaderProgram(string $name, ShaderProgram $shaderProgram): void
     {
         $this->shaderPrograms[$name] = $shaderProgram;
@@ -126,6 +134,36 @@ class Context
     {
         return $this->shaderPrograms[$name]->getRef();
     }
+
+    // -----------------------------------------------
+    // Uniforms
+    // -----------------------------------------------
+    public function registerUniformLocation(string $shaderName, string $name): int
+    {
+        $location = glGetUniformLocation(
+            $this->getShaderProgramRef($shaderName),
+            $name
+        );
+
+        $this->uniformLocations[$name] = $location;
+
+        return $location;
+    }
+
+    public function getUniformLocation(string $name): int
+    {
+        return $this->uniformLocations[$name];
+    }
+
+    public function setUniform4f(string $name, bool $transpose, Mat4 $matrix): void
+    {
+        // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
+        glUniformMatrix4f($this->getUniformLocation($name), $transpose, $matrix);
+    }
+
+    // ===============================================
+    // Vertexes
+    // ===============================================
 
     public function registerVertex(string $name, BaseVertex $vertex): void
     {
