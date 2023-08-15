@@ -5,6 +5,8 @@ require __DIR__.'/../vendor/autoload.php';
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
+use Medilies\TryingPhpGlfw\Nodes\Pong\Ball;
+use Medilies\TryingPhpGlfw\Nodes\Pong\Pad;
 use Medilies\TryingPhpGlfw\ShaderProgram;
 use Medilies\TryingPhpGlfw\Vertexes\PongPad;
 
@@ -28,6 +30,9 @@ $c->registerUniformLocation('pong', U_VIEW);
 $c->registerUniformLocation('pong', U_PROJECTION);
 
 $c->updateViewport();
+
+$c->registerNode('pad', new Pad($c));
+$c->registerNode('ball', new Ball($c));
 
 $c->loop(function (Context $c) {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -57,83 +62,12 @@ $c->loop(function (Context $c) {
     $c->setUniform4f(U_VIEW, GL_FALSE, $view);
 
     $c->bindVertexArray('pad');
-    padControl($c);
+    $c->getNode('pad')->act();
     $c->drawBoundedVertex();
     $c->unbindVertexArray();
 
     $c->bindVertexArray('ball');
-    ballControl($c);
+    $c->getNode('ball')->act();
     $c->drawBoundedVertex();
     $c->unbindVertexArray();
 });
-
-function padControl(Context $c): void
-{
-    static $posX = 1080 / 2;
-    $direction = 0;
-    $speed = $c->getCurrentWindowWidth() * 0.01;
-
-    if ($c->isPressed(GLFW_KEY_LEFT)) {
-        $direction = -1;
-    }
-    if ($c->isPressed(GLFW_KEY_RIGHT)) {
-        $direction = 1;
-    }
-
-    $posX = $posX + $speed * $direction;
-    // TODO: take into consideration pad size for boundaries
-    if ($posX > $c->getCurrentWindowWidth()) {
-        $posX = $c->getCurrentWindowWidth();
-    }
-    if ($posX < 0) {
-        $posX = 0;
-    }
-
-    // define the model matrix aka the cube's position in the world
-    $model = new Mat4;
-
-    // ! find a ratio
-    $model->translate(new Vec3($posX, 0.0, 0.0));
-    $model->scale(new Vec3(80, 10, 0));
-
-    // now set the uniform variables in the shader.
-    $c->setUniform4f(U_MODEL, GL_FALSE, $model);
-}
-
-function ballControl(Context $c): void
-{
-    static $posX = 1080 / 2;
-    static $posY = 720 / 2;
-    static $angle = 45;
-    $speed = $c->getCurrentWindowWidth() * 0.01;
-
-    $speedX = cos($angle) * $speed;
-    $speedY = sin($angle) * $speed;
-
-    $posX += $speedX;
-    $posY += $speedY;
-
-    if ($posX > $c->getCurrentWindowWidth()) {
-        $posX = $c->getCurrentWindowWidth();
-    }
-    if ($posX < 0) {
-        $posX = 0; // ! lost
-    }
-
-    if ($posY > $c->getCurrentWindowHeight()) {
-        $posY = $c->getCurrentWindowHeight();
-    }
-    if ($posY < 0) {
-        $posY = 0; // ! lost
-    }
-
-    // define the model matrix aka the cube's position in the world
-    $model = new Mat4;
-
-    // ! find a ratio
-    $model->translate(new Vec3($posX, $posY, 0.0));
-    $model->scale(new Vec3(10, 10, 0));
-
-    // now set the uniform variables in the shader.
-    $c->setUniform4f(U_MODEL, GL_FALSE, $model);
-}

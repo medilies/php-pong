@@ -5,6 +5,7 @@ namespace Medilies\TryingPhpGlfw;
 use Exception;
 use GL\Math\Mat4;
 use Medilies\TryingPhpGlfw\Common\BasicSingletonTrait;
+use Medilies\TryingPhpGlfw\Nodes\Node;
 use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Context
@@ -30,6 +31,9 @@ class Context
 
     private string $currentVertexName = '';
 
+    /** @var array<string, Node> */
+    private array $nodes = [];
+
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
     {
@@ -50,6 +54,10 @@ class Context
     {
         while (! $this->window->shouldClose()) {
             $callback($this);
+
+            // foreach ($this->nodes as $key => $node) {
+            //     $node->act();
+            // }
 
             // Check and call events and swap the buffers
             $this->window->swapBuffers();
@@ -215,5 +223,25 @@ class Context
     public function drawBoundedVertex(): void
     {
         $this->vertexes[$this->currentVertexName]->draw();
+    }
+
+    // ===============================================
+    // Nodes
+    // ===============================================
+
+    public function registerNode(string $name, Node $node): void
+    {
+        // TODO: must not be '' or duplicate
+        $this->nodes[$name] = $node;
+    }
+
+    public function unregisterNode(string $name): void
+    {
+        unset($this->nodes[$name]);
+    }
+
+    public function getNode(string $name): Node
+    {
+        return $this->nodes[$name];
     }
 }
