@@ -19,15 +19,13 @@ $c->registerVertex('ball', new PongPad);
 
 $c->useShaderProgram('pong');
 
-const U_PAD_MODEL = 'u_pad_model';
-const U_VIEW = 'view';
-const U_PROJECTION = 'projection';
+const U_MODEL = 'u_model';
+const U_VIEW = 'u_view';
+const U_PROJECTION = 'u_projection';
 
-$c->registerUniformLocation('pong', U_PAD_MODEL);
+$c->registerUniformLocation('pong', U_MODEL);
 $c->registerUniformLocation('pong', U_VIEW);
 $c->registerUniformLocation('pong', U_PROJECTION);
-
-$c->bindVertexArray('pad'); // !
 
 $c->updateViewport();
 
@@ -56,12 +54,17 @@ $c->loop(function (Context $c) {
     );
 
     $c->setUniform4f(U_PROJECTION, GL_FALSE, $projection);
-
     $c->setUniform4f(U_VIEW, GL_FALSE, $view);
 
+    $c->bindVertexArray('pad');
     padControl($c);
-
     $c->drawBoundedVertex();
+    $c->unbindVertexArray();
+
+    $c->bindVertexArray('ball');
+    ballControl($c);
+    $c->drawBoundedVertex();
+    $c->unbindVertexArray();
 });
 
 function padControl(Context $c): void
@@ -94,5 +97,20 @@ function padControl(Context $c): void
     $model->scale(new Vec3(80, 10, 0));
 
     // now set the uniform variables in the shader.
-    $c->setUniform4f(U_PAD_MODEL, GL_FALSE, $model);
+    $c->setUniform4f(U_MODEL, GL_FALSE, $model);
+}
+
+function ballControl(Context $c): void
+{
+    static $posX = 1080 / 2;
+
+    // define the model matrix aka the cube's position in the world
+    $model = new Mat4;
+
+    // ! find a ratio
+    $model->translate(new Vec3($posX, $c->getCurrentWindowHeight() / 2, 0.0));
+    $model->scale(new Vec3(10, 10, 0));
+
+    // now set the uniform variables in the shader.
+    $c->setUniform4f(U_MODEL, GL_FALSE, $model);
 }

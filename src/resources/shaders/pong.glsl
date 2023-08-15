@@ -5,13 +5,13 @@ layout(location = 1) in vec3 color;
 
 out vec4 pcolor;
 
-uniform mat4 u_pad_model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 u_model;
+uniform mat4 u_view;
+uniform mat4 u_projection;
 
 void main() {
     pcolor = vec4(color, 1);
-    gl_Position = projection * view * u_pad_model * vec4(position, 0, 1);
+    gl_Position = u_projection * u_view * u_model * vec4(position, 0, 1);
 }
 
 // ---
