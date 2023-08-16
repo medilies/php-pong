@@ -29,14 +29,7 @@ class Pad extends Node
         $this->posX = $this->context->getCurrentWindowWidth() / 2;
     }
 
-    public function act(): void
-    {
-        $this->move();
-
-        $this->draw();
-    }
-
-    private function move(): void
+    public function move(): void
     {
         $direction = 0;
         $speed = $this->context->getCurrentWindowWidth() * 0.01;
@@ -61,5 +54,9 @@ class Pad extends Node
         if ($this->posX < 0) {
             $this->posX = 0;
         }
+    }
+
+    public function postDraw(): void
+    {
     }
 }

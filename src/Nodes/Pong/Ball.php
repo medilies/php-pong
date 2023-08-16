@@ -53,14 +53,7 @@ class Ball extends Node
         $this->speed = 0;
     }
 
-    public function act(): void
-    {
-        $this->move();
-
-        $this->draw();
-    }
-
-    private function move(): void
+    public function move(): void
     {
         $this->newPos();
         $this->handleWallsCollisions();
@@ -71,11 +64,13 @@ class Ball extends Node
             $this->movAngle = -$this->movAngle;
         }
 
-        $this->handleLoss();
         $this->baseAngle();
     }
 
-    // postMove
+    public function postDraw(): void
+    {
+        $this->handleLoss();
+    }
 
     private function newPos(): void
     {
@@ -101,21 +96,21 @@ class Ball extends Node
         }
     }
 
-    private function handleLoss(): void
-    {
-        // TODO: signal it tso context
-        if ($this->bottom() <= 0) {
-            $this->posY = 0;
-            $this->speed = 0;
-        }
-    }
-
     private function baseAngle(): void
     {
         if ($this->movAngle < 0) {
             $this->movAngle += 2 * pi();
         } elseif ($this->movAngle >= 2 * pi()) {
             $this->movAngle -= 2 * pi();
+        }
+    }
+
+    private function handleLoss(): void
+    {
+        // TODO: signal it tso context
+        if ($this->bottom() <= 0) {
+            $this->posY = 0;
+            $this->speed = 0;
         }
     }
 }

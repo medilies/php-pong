@@ -50,7 +50,17 @@ class Context
             $callback($this);
 
             foreach ($this->nodes as $key => $node) {
-                $node->act();
+                $node->move();
+            }
+
+            foreach ($this->nodes as $key => $node) {
+                $node->draw();
+            }
+
+            // TODO: detect collisions
+
+            foreach ($this->nodes as $key => $node) {
+                $node->postDraw();
             }
 
             $this->window->swapBuffers();
