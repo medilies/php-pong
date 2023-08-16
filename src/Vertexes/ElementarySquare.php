@@ -4,7 +4,7 @@ namespace Medilies\TryingPhpGlfw\Vertexes;
 
 use GL\Buffer\FloatBuffer;
 
-class PongPad extends BaseVertex
+class ElementarySquare extends BaseVertex
 {
     protected function setBufferData(): void
     {

@@ -11,14 +11,41 @@ class Pad extends Node
 {
     private float $posX;
 
+    private float $posY;
+
+    private float $width;
+
+    private float $heigh;
+
     public function __construct(
-        protected Context $context
-    )
-    {
-        $this->posX = 1080 / 2;
+        protected Context $context,
+        private string $vertexName
+    ) {
+        $this->posY = 0;
+        $this->width = 80;
+        $this->heigh = 10;
+
+        $this->reset();
+        $this->start();
     }
 
-    public function act()
+    public function start(): void
+    {
+    }
+
+    public function reset(): void
+    {
+        $this->posX = $this->context->getCurrentWindowWidth() / 2;
+    }
+
+    public function act(): void
+    {
+        $this->move();
+
+        $this->draw();
+    }
+
+    private function move(): void
     {
         $direction = 0;
         $speed = $this->context->getCurrentWindowWidth() * 0.01;
@@ -38,20 +65,26 @@ class Pad extends Node
         if ($this->posX < 0) {
             $this->posX = 0;
         }
+    }
 
-        // define the model matrix aka the cube's position in the world
+    private function draw(): void
+    {
         $model = new Mat4;
 
         // ! find a ratio
-        $model->translate(new Vec3($this->posX, 0.0, 0.0));
-        $model->scale(new Vec3(80, 10, 0));
+        $model->translate(new Vec3($this->posX, $this->posY));
+        $model->scale(new Vec3($this->width, $this->heigh, 0));
 
-        // now set the uniform variables in the shader.
+        $this->context->bindVertexArray($this->vertexName);
+
         $this->context->setUniform4f(U_MODEL, GL_FALSE, $model);
+
+        $this->context->drawBoundedVertex();
+        $this->context->unbindVertexArray();
     }
 
-    public function collides($x, $y): bool{
-        echo $this->posX.' _ '.$x.' _ '.$this->posX+80;
-        return $x > ($this->posX) && $x < ($this->posX+80);
+    public function collides($x, $y): bool
+    {
+        return $x > ($this->posX) && $x < ($this->posX + 80);
     }
 }
