@@ -12,11 +12,7 @@ class Ball extends Node
 {
     private readonly float $iPosX;
 
-    private float $posX;
-
     private readonly float $iPosY;
-
-    private float $posY;
 
     private readonly float $iMovAngle;
 
@@ -28,7 +24,7 @@ class Ball extends Node
 
     public function __construct(
         protected Context $context,
-        private BaseVertex $vertex,
+        protected BaseVertex $vertex,
     ) {
         $this->iPosX = $this->context->getCurrentWindowWidth() / 2;
 
@@ -37,6 +33,9 @@ class Ball extends Node
         $this->iMovAngle = random_int(0, 1) ? deg2rad(rand(45, 80)) : deg2rad(rand(100, 135));
 
         $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
+
+        $this->width = 10;
+        $this->heigh = 10;
 
         $this->reset();
         $this->start();
@@ -94,19 +93,5 @@ class Ball extends Node
         } elseif ($this->movAngle >= 2 * pi()) {
             $this->movAngle -= 2 * pi();
         }
-    }
-
-    public function draw(): void
-    {
-        $model = new Mat4;
-
-        // ! find a ratio
-        $model->translate(new Vec3($this->posX, $this->posY));
-        $model->scale(new Vec3(10, 10));
-
-        $this->vertex->bind();
-        $this->context->setUniform4f(U_MODEL, GL_FALSE, $model);
-        $this->vertex->draw();
-        $this->vertex->unbind();
     }
 }
