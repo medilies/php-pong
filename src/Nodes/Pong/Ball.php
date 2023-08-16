@@ -62,31 +62,56 @@ class Ball extends Node
 
     private function move(): void
     {
-        $this->posX = $this->posX + cos($this->movAngle) * $this->speed;
-        $this->posY = $this->posY + sin($this->movAngle) * $this->speed;
-
-        if ($this->posX >= $this->context->getCurrentWindowWidth()) {
-            $this->posX = $this->context->getCurrentWindowWidth();
-            $this->movAngle = pi() - $this->movAngle;
-        }
-        if ($this->posX <= 0) {
-            $this->movAngle = pi() - $this->movAngle;
-        }
-
-        if ($this->posY >= $this->context->getCurrentWindowHeight()) {
-            $this->posY = $this->context->getCurrentWindowHeight();
-            $this->movAngle = -$this->movAngle;
-        }
+        $this->newPos();
+        $this->handleWallsCollisions();
 
         // TODO: check collisions from context
         // each loop set list of collisions by node index ['1x2' => true]
         if ($this->context->getNode('pad')->collided($this)) {
             $this->movAngle = -$this->movAngle;
-        } elseif ($this->posY < 0) {
-            $this->posY = 0; // ! restart
-            $this->speed = 0;
         }
 
+        $this->handleLoss();
+        $this->baseAngle();
+    }
+
+    // postMove
+
+    private function newPos(): void
+    {
+        $this->posX += cos($this->movAngle) * $this->speed;
+        $this->posY += sin($this->movAngle) * $this->speed;
+    }
+
+    private function handleWallsCollisions(): void
+    {
+        if ($this->right() >= $this->context->getCurrentWindowWidth()) {
+            $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
+            $this->movAngle = pi() - $this->movAngle;
+        }
+
+        if ($this->left() <= 0) {
+            $this->posX = 0;
+            $this->movAngle = pi() - $this->movAngle;
+        }
+
+        if ($this->top() >= $this->context->getCurrentWindowHeight()) {
+            $this->posY = $this->context->getCurrentWindowHeight() - $this->heigh;
+            $this->movAngle = -$this->movAngle;
+        }
+    }
+
+    private function handleLoss(): void
+    {
+        // TODO: signal it tso context
+        if ($this->bottom() <= 0) {
+            $this->posY = 0;
+            $this->speed = 0;
+        }
+    }
+
+    private function baseAngle(): void
+    {
         if ($this->movAngle < 0) {
             $this->movAngle += 2 * pi();
         } elseif ($this->movAngle >= 2 * pi()) {
