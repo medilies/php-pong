@@ -15,9 +15,6 @@ $c->createWindow(1080, 720, 'PONG');
 
 $c->registerShaderProgram('pong', new ShaderProgram('pong', 'pong'));
 
-$c->registerVertex('pad', new ElementarySquare);
-$c->registerVertex('ball', new ElementarySquare);
-
 $c->useShaderProgram('pong');
 
 const U_MODEL = 'u_model';
@@ -30,8 +27,8 @@ $c->registerUniformLocation('pong', U_PROJECTION);
 
 $c->updateViewport();
 
-$c->registerNode('pad', new Pad($c, 'pad'));
-$c->registerNode('ball', new Ball($c));
+$c->registerNode('pad', new Pad($c, new ElementarySquare));
+$c->registerNode('ball', new Ball($c, new ElementarySquare));
 
 // Scene
 $view = new Mat4;

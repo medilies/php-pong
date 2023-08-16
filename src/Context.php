@@ -6,7 +6,6 @@ use Exception;
 use GL\Math\Mat4;
 use Medilies\TryingPhpGlfw\Common\BasicSingletonTrait;
 use Medilies\TryingPhpGlfw\Nodes\Node;
-use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Context
 {
@@ -25,11 +24,6 @@ class Context
 
     /** @var array<string, int> */
     private array $uniformLocations = [];
-
-    /** @var array<string, BaseVertex> */
-    private array $vertexes = [];
-
-    private string $currentVertexName = '';
 
     /** @var array<string, Node> */
     private array $nodes = [];
@@ -70,10 +64,6 @@ class Context
      */
     public function __destruct()
     {
-        foreach ($this->vertexes as $vertex) {
-            $vertex->delete();
-        }
-
         foreach ($this->shaderPrograms as $shaderProgram) {
             $shaderProgram->delete();
         }
@@ -196,33 +186,6 @@ class Context
     public function setUniform1i(string $name, int $value): void
     {
         glUniform1i($this->getUniformLocation($name), $value);
-    }
-
-    // ===============================================
-    // Vertexes
-    // ===============================================
-
-    public function registerVertex(string $name, BaseVertex $vertex): void
-    {
-        // TODO: must not be ''
-        $this->vertexes[$name] = $vertex;
-    }
-
-    public function bindVertexArray(string $name): void
-    {
-        $this->vertexes[$name]->bind();
-        $this->currentVertexName = $name;
-    }
-
-    public function unbindVertexArray(): void
-    {
-        glBindVertexArray(0);
-        $this->currentVertexName = '';
-    }
-
-    public function drawBoundedVertex(): void
-    {
-        $this->vertexes[$this->currentVertexName]->draw();
     }
 
     // ===============================================

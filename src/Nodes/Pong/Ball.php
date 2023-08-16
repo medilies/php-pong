@@ -6,6 +6,7 @@ use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
 use Medilies\TryingPhpGlfw\Nodes\Node;
+use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Ball extends Node
 {
@@ -27,6 +28,7 @@ class Ball extends Node
 
     public function __construct(
         protected Context $context,
+        private BaseVertex $vertex,
     ) {
         $this->iPosX = $this->context->getCurrentWindowWidth() / 2;
 
@@ -56,8 +58,6 @@ class Ball extends Node
 
     public function act(): void
     {
-        $this->context->bindVertexArray('ball');
-
         $this->move();
 
         $this->draw();
@@ -104,9 +104,9 @@ class Ball extends Node
         $model->translate(new Vec3($this->posX, $this->posY));
         $model->scale(new Vec3(10, 10));
 
+        $this->vertex->bind();
         $this->context->setUniform4f(U_MODEL, GL_FALSE, $model);
-
-        $this->context->drawBoundedVertex();
-        $this->context->unbindVertexArray();
+        $this->vertex->draw();
+        $this->vertex->unbind();
     }
 }

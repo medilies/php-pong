@@ -6,6 +6,7 @@ use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
 use Medilies\TryingPhpGlfw\Nodes\Node;
+use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Pad extends Node
 {
@@ -19,7 +20,7 @@ class Pad extends Node
 
     public function __construct(
         protected Context $context,
-        private string $vertexName
+        private BaseVertex $vertex,
     ) {
         $this->posY = 0;
         $this->width = 80;
@@ -75,12 +76,10 @@ class Pad extends Node
         $model->translate(new Vec3($this->posX, $this->posY));
         $model->scale(new Vec3($this->width, $this->heigh, 0));
 
-        $this->context->bindVertexArray($this->vertexName);
-
+        $this->vertex->bind();
         $this->context->setUniform4f(U_MODEL, GL_FALSE, $model);
-
-        $this->context->drawBoundedVertex();
-        $this->context->unbindVertexArray();
+        $this->vertex->draw();
+        $this->vertex->unbind();
     }
 
     public function collides($x, $y): bool
