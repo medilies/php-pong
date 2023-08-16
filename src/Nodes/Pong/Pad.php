@@ -49,6 +49,11 @@ class Pad extends Node
         }
 
         $this->posX = $this->posX + $speed * $direction;
+
+        if (($this->posX + $this->width) >= $this->context->getCurrentWindowWidth()) {
+            $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
+        }
+
         // TODO: take into consideration pad size for boundaries
         if ($this->posX > $this->context->getCurrentWindowWidth()) {
             $this->posX = $this->context->getCurrentWindowWidth();
