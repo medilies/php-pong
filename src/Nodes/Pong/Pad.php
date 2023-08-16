@@ -12,7 +12,7 @@ class Pad extends Node
         protected Context $context,
         protected BaseVertex $vertex,
     ) {
-        $this->posY = 0;
+        $this->posY = 20;
         $this->width = 80;
         $this->heigh = 10;
 
@@ -61,10 +61,5 @@ class Pad extends Node
         if ($this->posX < 0) {
             $this->posX = 0;
         }
-    }
-
-    public function collides($x, $y): bool
-    {
-        return $x > ($this->posX) && $x < ($this->posX + 80);
     }
 }

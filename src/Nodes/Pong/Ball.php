@@ -77,13 +77,14 @@ class Ball extends Node
             $this->posY = $this->context->getCurrentWindowHeight();
             $this->movAngle = -$this->movAngle;
         }
-        if ($this->posY < 0) {
-            if ($this->context->getNode('pad')->collides($this->posX, $this->posY)) {
-                $this->movAngle = -$this->movAngle;
-            } else {
-                $this->posY = 0; // ! restart
-                $this->speed = 0;
-            }
+
+        // TODO: check collisions from context
+        // each loop set list of collisions by node index ['1x2' => true]
+        if ($this->context->getNode('pad')->collided($this)) {
+            $this->movAngle = -$this->movAngle;
+        } elseif ($this->posY < 0) {
+            $this->posY = 0; // ! restart
+            $this->speed = 0;
         }
 
         if ($this->movAngle < 0) {

@@ -40,4 +40,41 @@ abstract class Node
         $this->vertex->draw();
         $this->vertex->unbind();
     }
+
+    /**
+     * Input node square boundaries
+     */
+    public function collided(Node $node): bool
+    {
+        if (($node->left() + $node->width) < $this->left()) {
+            return false;
+        }
+
+        if (($node->right() - $node->width) > $this->right()) {
+            return false;
+        }
+
+        // ? top vs top
+        return $node->bottom() >= $this->bottom() && $node->bottom() <= $this->top();
+    }
+
+    public function top(): float
+    {
+        return $this->posY + $this->heigh;
+    }
+
+    public function right(): float
+    {
+        return $this->posX + $this->width;
+    }
+
+    public function bottom(): float
+    {
+        return $this->posY;
+    }
+
+    public function left(): float
+    {
+        return $this->posX;
+    }
 }
