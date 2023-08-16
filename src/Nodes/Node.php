@@ -18,10 +18,13 @@ abstract class Node
     protected float $heigh;
 
     protected Context $context;
+
     protected BaseVertex $vertex;
 
     abstract public function reset();
+
     abstract public function start();
+
     abstract public function act();
 
     public function draw(): void

@@ -49,15 +49,21 @@ class Context
         while (! $this->window->shouldClose()) {
             $callback($this);
 
-            // foreach ($this->nodes as $key => $node) {
-            //     $node->act();
-            // }
+            foreach ($this->nodes as $key => $node) {
+                $node->act();
+            }
 
-            // Check and call events and swap the buffers
             $this->window->swapBuffers();
             glfwPollEvents();
         }
     }
+
+    // public function reset(): void
+    // {
+    //     foreach ($this->nodes as $key => $node) {
+    //         $node->reset();
+    //     }
+    // }
 
     /**
      * Free allocated resources

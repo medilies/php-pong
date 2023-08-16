@@ -2,8 +2,6 @@
 
 namespace Medilies\TryingPhpGlfw\Nodes\Pong;
 
-use GL\Math\Mat4;
-use GL\Math\Vec3;
 use Medilies\TryingPhpGlfw\Context;
 use Medilies\TryingPhpGlfw\Nodes\Node;
 use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;

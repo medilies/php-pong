@@ -53,8 +53,4 @@ $c->loop(function (Context $c) {
     if ($c->isPressed(GLFW_KEY_ESCAPE)) {
         $c->closeCurrentWindow();
     }
-
-    $c->getNode('pad')->act();
-
-    $c->getNode('ball')->act();
 });
