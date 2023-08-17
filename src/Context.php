@@ -230,10 +230,10 @@ class Context
     // Nodes
     // ===============================================
 
-    public function registerNode(string $name, Node $node): void
+    public function registerNode(Node $node): void
     {
         // TODO: must not be '' or duplicate
-        $this->nodes[$name] = $node;
+        $this->nodes[$node->getName()] = $node;
     }
 
     public function unregisterNode(string $name): void

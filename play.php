@@ -27,8 +27,8 @@ $c->registerUniformLocation('pong', U_PROJECTION);
 
 $c->updateViewport();
 
-$c->registerNode('pad', new Pad($c, new ElementarySquare));
-$c->registerNode('ball', new Ball($c, new ElementarySquare));
+$c->registerNode(new Pad($c, new ElementarySquare, 'pad'));
+$c->registerNode(new Ball($c, new ElementarySquare, 'ball'));
 
 // Scene
 $view = new Mat4;

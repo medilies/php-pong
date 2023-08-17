@@ -17,6 +17,7 @@ class Ball extends Node
     public function __construct(
         protected Context $context,
         protected BaseVertex $vertex,
+        protected string $name,
     ) {
         $this->iPosX = $this->context->getCurrentWindowWidth() / 2;
 

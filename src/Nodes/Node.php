@@ -9,6 +9,8 @@ use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 abstract class Node
 {
+    protected string $name;
+
     protected float $posX;
 
     protected float $posY;
@@ -107,5 +109,10 @@ abstract class Node
     public function left(): float
     {
         return $this->posX;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

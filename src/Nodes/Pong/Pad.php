@@ -17,6 +17,7 @@ class Pad extends Node
     public function __construct(
         protected Context $context,
         protected BaseVertex $vertex,
+        protected string $name,
     ) {
         $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
 
