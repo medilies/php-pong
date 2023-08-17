@@ -27,7 +27,7 @@ abstract class Node
 
     abstract public function move();
 
-    abstract public function postDraw();
+    abstract public function postMove();
 
     public function draw(): void
     {

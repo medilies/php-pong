@@ -56,7 +56,8 @@ class Pad extends Node
         }
     }
 
-    public function postDraw(): void
+    public function postMove(): void
     {
+        // ? change color if collided
     }
 }

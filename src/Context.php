@@ -28,6 +28,8 @@ class Context
     /** @var array<string, Node> */
     private array $nodes = [];
 
+    private array $collisions = [];
+
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
     {
@@ -47,20 +49,33 @@ class Context
     public function loop(callable $callback): void
     {
         while (! $this->window->shouldClose()) {
+            $this->collisions = [];
+
             $callback($this);
 
-            foreach ($this->nodes as $key => $node) {
+            foreach ($this->nodes as $node) {
                 $node->move();
             }
 
-            foreach ($this->nodes as $key => $node) {
-                $node->draw();
+            foreach ($this->nodes as $name1 => $node1) {
+                foreach ($this->nodes as $name2 => $node2) {
+                    if ($name1 >= $name2) {
+                        continue;
+                    }
+
+                    if ($node1->collided($node2)) {
+                        $this->collisions[$name1][$name2] = true;
+                        $this->collisions[$name2][$name1] = true;
+                    }
+                }
             }
 
-            // TODO: detect collisions
+            foreach ($this->nodes as $node) {
+                $node->postMove();
+            }
 
-            foreach ($this->nodes as $key => $node) {
-                $node->postDraw();
+            foreach ($this->nodes as $node) {
+                $node->draw();
             }
 
             $this->window->swapBuffers();
@@ -222,5 +237,10 @@ class Context
     public function getNode(string $name): Node
     {
         return $this->nodes[$name];
+    }
+
+    public function getCollisions(string $name): array
+    {
+        return $this->collisions[$name] ?? [];
     }
 }

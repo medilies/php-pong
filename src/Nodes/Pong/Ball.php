@@ -58,17 +58,21 @@ class Ball extends Node
         $this->newPos();
         $this->handleWallsCollisions();
 
-        // TODO: check collisions from context
-        // each loop set list of collisions by node index ['1x2' => true]
-        if ($this->context->getNode('pad')->collided($this)) {
-            $this->movAngle = -$this->movAngle;
-        }
+
 
         $this->baseAngle();
     }
 
-    public function postDraw(): void
+    public function postMove(): void
     {
+        // TODO: id should be a prop
+        $collisions = $this->context->getCollisions('ball');
+
+        // TODO: don't ask by name to define behavior
+        if (isset($collisions['pad'])) {
+            $this->movAngle = -$this->movAngle;
+        }
+
         $this->handleLoss();
     }
 
