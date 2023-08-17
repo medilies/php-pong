@@ -29,7 +29,6 @@ class Ball extends Node
         $this->heigh = 10;
 
         $this->reset();
-        $this->start();
     }
 
     public function start(): void

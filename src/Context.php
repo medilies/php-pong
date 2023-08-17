@@ -30,6 +30,8 @@ class Context
 
     private array $collisions = [];
 
+    private bool $started = false;
+
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
     {
@@ -49,23 +51,27 @@ class Context
     public function loop(callable $callback): void
     {
         while (! $this->window->shouldClose()) {
-            $this->collisions = [];
+            $this->handleStart();
 
             $callback($this);
 
-            foreach ($this->nodes as $node) {
-                $node->move();
+            if ($this->started) {
+                $this->collisions = [];
+
+                foreach ($this->nodes as $node) {
+                    $node->move();
+                }
+
+                $this->checkCollisions();
+
+                foreach ($this->nodes as $node) {
+                    $node->postMove();
+                }
             }
 
-            $this->checkCollisions();
-
-            foreach ($this->nodes as $node) {
-                $node->postMove();
-            }
-
-            foreach ($this->nodes as $node) {
-                $node->draw();
-            }
+                foreach ($this->nodes as $node) {
+                    $node->draw();
+                }
 
             $this->window->swapBuffers();
             glfwPollEvents();
@@ -77,7 +83,7 @@ class Context
         $checked = [];
         foreach ($this->nodes as $name1 => $node1) {
             foreach ($this->nodes as $name2 => $node2) {
-                if (isset($checked[$name2])) {
+                if (isset($checked[$name2]) || $name1 === $name2) {
                     continue;
                 }
 
@@ -90,12 +96,35 @@ class Context
         }
     }
 
-    // public function reset(): void
-    // {
-    //     foreach ($this->nodes as $key => $node) {
-    //         $node->reset();
-    //     }
-    // }
+    private function handleStart(): void
+    {
+        if (! $this->window->isPressed(GLFW_KEY_SPACE)) {
+            return;
+        }
+
+        if($this->started) {
+            return;
+        }
+
+        $this->started = true;
+
+        foreach ($this->nodes as $key => $node) {
+            $node->start();
+        }
+    }
+
+    public function reset(): void
+    {
+        if (! $this->started) {
+            return;
+        }
+
+        $this->started = false;
+
+        foreach ($this->nodes as $key => $node) {
+            $node->reset();
+        }
+    }
 
     /**
      * Free allocated resources

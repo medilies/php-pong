@@ -28,7 +28,6 @@ class Pad extends Node
         $this->iPosY = 20;
 
         $this->reset();
-        $this->start();
     }
 
     public function start(): void
