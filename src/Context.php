@@ -30,7 +30,7 @@ class Context
 
     private array $collisions = [];
 
-    private bool $started = false;
+    private bool $isStarted = false;
 
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     private function __construct()
@@ -55,7 +55,7 @@ class Context
 
             $callback($this);
 
-            if ($this->started) {
+            if ($this->isStarted) {
                 $this->collisions = [];
 
                 foreach ($this->nodes as $node) {
@@ -69,9 +69,9 @@ class Context
                 }
             }
 
-                foreach ($this->nodes as $node) {
-                    $node->draw();
-                }
+            foreach ($this->nodes as $node) {
+                $node->draw();
+            }
 
             $this->window->swapBuffers();
             glfwPollEvents();
@@ -98,32 +98,28 @@ class Context
 
     private function handleStart(): void
     {
+        if ($this->isStarted) {
+            return;
+        }
+
         if (! $this->window->isPressed(GLFW_KEY_SPACE)) {
             return;
         }
 
-        if($this->started) {
-            return;
+        $this->isStarted = true;
+
+        foreach ($this->nodes as $node) {
+            $node->reset();
         }
 
-        $this->started = true;
-
-        foreach ($this->nodes as $key => $node) {
+        foreach ($this->nodes as $node) {
             $node->start();
         }
     }
 
-    public function reset(): void
+    public function lost(): void
     {
-        if (! $this->started) {
-            return;
-        }
-
-        $this->started = false;
-
-        foreach ($this->nodes as $key => $node) {
-            $node->reset();
-        }
+        $this->isStarted = false;
     }
 
     /**

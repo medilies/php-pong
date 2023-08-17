@@ -59,12 +59,11 @@ class Ball extends Node
 
             // prevent ball from colliding and changing angle many times
             // when overlapping pad
-            if($this->movAngle > pi() && $this->movAngle < 2*pi()) {
+            if ($this->movAngle > pi() && $this->movAngle < 2 * pi()) {
                 $this->movAngle = -$this->movAngle;
                 $this->baseAngle();
             }
         }
-
 
         $this->handleLoss();
     }
@@ -104,10 +103,9 @@ class Ball extends Node
 
     private function handleLoss(): void
     {
-        // TODO: signal it tso context
         if ($this->bottom() <= 0) {
             $this->posY = 0;
-            $this->speed = 0;
+            $this->context->lost();
         }
     }
 }
