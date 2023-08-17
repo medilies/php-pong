@@ -8,17 +8,15 @@ use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Ball extends Node
 {
-    private readonly float $iPosX;
+    protected readonly float $iPosX;
 
-    private readonly float $iPosY;
+    protected readonly float $iPosY;
 
-    private readonly float $iMovAngle;
+    protected readonly float $iMovAngle;
 
-    private float $movAngle;
+    protected float $movAngle;
 
     protected readonly float $iSpeed;
-
-    protected float $speed;
 
     public function __construct(
         protected Context $context,
@@ -45,20 +43,10 @@ class Ball extends Node
         $this->speed = $this->iSpeed;
     }
 
-    public function reset(): void
-    {
-        $this->posX = $this->iPosX;
-        $this->posY = $this->iPosY;
-
-        $this->speed = 0;
-    }
-
     public function move(): void
     {
         $this->newPos();
         $this->handleWallsCollisions();
-
-
 
         $this->baseAngle();
     }

@@ -17,11 +17,25 @@ abstract class Node
 
     protected float $heigh;
 
+    protected readonly float $iPosX;
+
+    protected readonly float $iPosY;
+
+    protected readonly float $iSpeed;
+
+    protected float $speed;
+
     protected Context $context;
 
     protected BaseVertex $vertex;
 
-    abstract public function reset();
+    public function reset(): void
+    {
+        $this->posX = $this->iPosX;
+        $this->posY = $this->iPosY;
+
+        $this->speed = 0;
+    }
 
     abstract public function start();
 
@@ -48,6 +62,7 @@ abstract class Node
      */
     public function collided(Node $node): bool
     {
+        // TODO: check which one is higher to compare top X bottom collisions ...
         if (($node->left() + $node->width) < $this->left()) {
             return false;
         }

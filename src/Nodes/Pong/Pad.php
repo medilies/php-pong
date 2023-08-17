@@ -8,13 +8,23 @@ use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Pad extends Node
 {
+    protected readonly float $iPosX;
+
+    protected readonly float $iPosY;
+
+    protected readonly float $iSpeed;
+
     public function __construct(
         protected Context $context,
         protected BaseVertex $vertex,
     ) {
-        $this->posY = 20;
+        $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
+
         $this->width = 80;
         $this->heigh = 10;
+
+        $this->iPosX = $this->context->getCurrentWindowWidth() / 2 - $this->width / 2;
+        $this->iPosY = 20;
 
         $this->reset();
         $this->start();
@@ -22,17 +32,12 @@ class Pad extends Node
 
     public function start(): void
     {
-    }
-
-    public function reset(): void
-    {
-        $this->posX = $this->context->getCurrentWindowWidth() / 2;
+        $this->speed = $this->iSpeed;
     }
 
     public function move(): void
     {
         $direction = 0;
-        $speed = $this->context->getCurrentWindowWidth() * 0.01;
 
         if ($this->context->isPressed(GLFW_KEY_LEFT)) {
             $direction = -1;
@@ -41,17 +46,13 @@ class Pad extends Node
             $direction = 1;
         }
 
-        $this->posX = $this->posX + $speed * $direction;
+        $this->posX += $this->speed * $direction;
 
-        if (($this->posX + $this->width) >= $this->context->getCurrentWindowWidth()) {
+        if ($this->right() >= $this->context->getCurrentWindowWidth()) {
             $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
         }
 
-        // TODO: take into consideration pad size for boundaries
-        if ($this->posX > $this->context->getCurrentWindowWidth()) {
-            $this->posX = $this->context->getCurrentWindowWidth();
-        }
-        if ($this->posX < 0) {
+        if ($this->left() <= 0) {
             $this->posX = 0;
         }
     }
