@@ -19,6 +19,7 @@
         "laravel/pint": "^1.10"
     },
     "require-dev": {
-        "phpgl/ide-stubs": "^1.0"
+        "phpgl/ide-stubs": "^1.0",
+        "phpstan/phpstan": "^1.10"
     }
 }
