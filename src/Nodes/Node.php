@@ -25,6 +25,8 @@ abstract class Node
 
     protected float $speed;
 
+    protected float $movAngle;
+
     protected Context $context;
 
     protected BaseVertex $vertex;

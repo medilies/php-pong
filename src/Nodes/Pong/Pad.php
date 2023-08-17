@@ -37,16 +37,20 @@ class Pad extends Node
 
     public function move(): void
     {
-        $direction = 0;
+        $this->speed = $this->iSpeed;
 
         if ($this->context->isPressed(GLFW_KEY_LEFT)) {
-            $direction = -1;
-        }
-        if ($this->context->isPressed(GLFW_KEY_RIGHT)) {
-            $direction = 1;
+            $this->movAngle = pi();
+        } elseif ($this->context->isPressed(GLFW_KEY_RIGHT)) {
+            $this->movAngle = 0;
+        } else {
+            $this->speed = 0;
+
+            return;
         }
 
-        $this->posX += $this->speed * $direction;
+        $this->posX += cos($this->movAngle) * $this->speed;
+        $this->posY += sin($this->movAngle) * $this->speed;
 
         if ($this->right() >= $this->context->getCurrentWindowWidth()) {
             $this->posX = $this->context->getCurrentWindowWidth() - $this->width;

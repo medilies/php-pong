@@ -12,10 +12,6 @@ class Ball extends Node
 
     protected readonly float $iPosY;
 
-    protected readonly float $iMovAngle;
-
-    protected float $movAngle;
-
     protected readonly float $iSpeed;
 
     public function __construct(
@@ -25,8 +21,6 @@ class Ball extends Node
         $this->iPosX = $this->context->getCurrentWindowWidth() / 2;
 
         $this->iPosY = $this->context->getCurrentWindowHeight() / 2;
-
-        $this->iMovAngle = random_int(0, 1) ? deg2rad(rand(45, 80)) : deg2rad(rand(100, 135));
 
         $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
 
@@ -39,7 +33,7 @@ class Ball extends Node
 
     public function start(): void
     {
-        $this->movAngle = $this->iMovAngle;
+        $this->movAngle = random_int(0, 1) ? deg2rad(rand(45, 80)) : deg2rad(rand(100, 135));
         $this->speed = $this->iSpeed;
     }
 
