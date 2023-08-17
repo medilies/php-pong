@@ -63,6 +63,7 @@ abstract class Node
     public function collided(Node $node): bool
     {
         // TODO: check which one is higher to compare top X bottom collisions ...
+        // check nodes centers
         if (($node->left() + $node->width) < $this->left()) {
             return false;
         }
