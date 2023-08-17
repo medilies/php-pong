@@ -57,18 +57,7 @@ class Context
                 $node->move();
             }
 
-            foreach ($this->nodes as $name1 => $node1) {
-                foreach ($this->nodes as $name2 => $node2) {
-                    if ($name1 >= $name2) {
-                        continue;
-                    }
-
-                    if ($node1->collided($node2)) {
-                        $this->collisions[$name1][$name2] = true;
-                        $this->collisions[$name2][$name1] = true;
-                    }
-                }
-            }
+            $this->checkCollisions();
 
             foreach ($this->nodes as $node) {
                 $node->postMove();
@@ -80,6 +69,24 @@ class Context
 
             $this->window->swapBuffers();
             glfwPollEvents();
+        }
+    }
+
+    private function checkCollisions(): void
+    {
+        $checked = [];
+        foreach ($this->nodes as $name1 => $node1) {
+            foreach ($this->nodes as $name2 => $node2) {
+                if (isset($checked[$name2])) {
+                    continue;
+                }
+
+                if ($node1->collided($node2)) {
+                    $this->collisions[$name1][$name2] = true;
+                    $this->collisions[$name2][$name1] = true;
+                }
+            }
+            $checked[$name1] = true;
         }
     }
 

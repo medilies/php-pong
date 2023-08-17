@@ -61,21 +61,32 @@ abstract class Node
 
     /**
      * Input node square boundaries
+     *
+     * Handles squares and rectangles
      */
     public function collided(Node $node): bool
     {
-        // TODO: check which one is higher to compare top X bottom collisions ...
-        // check nodes centers
-        if (($node->left() + $node->width) < $this->left()) {
+        // fully above
+        if ($this->top() > $node->top() && $this->bottom() > $node->top()) {
             return false;
         }
 
-        if (($node->right() - $node->width) > $this->right()) {
+        // fully under
+        if ($this->bottom() < $node->bottom() && $this->top() < $node->bottom()) {
             return false;
         }
 
-        // ? top vs top
-        return $node->bottom() >= $this->bottom() && $node->bottom() <= $this->top();
+        // fully to the right
+        if ($this->right() > $node->right() && $this->left() > $node->right()) {
+            return false;
+        }
+
+        // fully to the left
+        if ($this->left() < $node->left() && $this->right() < $node->left()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function top(): float
