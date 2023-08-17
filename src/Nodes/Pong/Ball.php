@@ -48,13 +48,24 @@ class Ball extends Node
 
     public function postMove(): void
     {
-        // TODO: id should be a prop
-        $collisions = $this->context->getCollisions('ball');
+        // ? inverse control -> update collisions property here
+        $collisions = $this->context->getCollisions($this->name);
 
         // TODO: don't ask by name to define behavior
+        // Add interface like Repelling (deflects the ball)
+        // but that implies checking where Node surface is facing
         if (isset($collisions['pad'])) {
             $this->movAngle = -$this->movAngle;
+            $this->baseAngle();
+
+            // prevent ball from colliding and changing angle many times
+            // when overlapping pad
+            if($this->movAngle > pi() && $this->movAngle < 2*pi()) {
+                $this->movAngle = -$this->movAngle;
+                $this->baseAngle();
+            }
         }
+
 
         $this->handleLoss();
     }
