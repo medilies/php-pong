@@ -47,7 +47,7 @@ class ShaderProgram
         $path = __DIR__."/resources/shaders/{$fileName}.glsl";
         $shaderCode = file_get_contents($path);
 
-        if(false === $shaderCode) {
+        if (false === $shaderCode) {
             throw new Exception("Couldn't read shader: '{$path}'");
         }
 
