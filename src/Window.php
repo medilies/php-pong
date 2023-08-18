@@ -55,6 +55,9 @@ class Window
         glfwSwapBuffers($this->windowRef);
     }
 
+    /**
+     * @return float[]
+     */
     public function getCursorPos(): array
     {
         glfwGetCursorPos($this->windowRef, $mouseX, $mouseY);

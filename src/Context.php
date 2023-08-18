@@ -28,6 +28,7 @@ class Context
     /** @var array<string, Node> */
     private array $nodes = [];
 
+    /** @var array<string, array<string, true>> */
     private array $collisions = [];
 
     private bool $isStarted = false;
@@ -138,7 +139,7 @@ class Context
     // Window
     // ===============================================
 
-    public function createWindow($width, $height, $title): static
+    public function createWindow(int $width, int $height, string $title): static
     {
         // ? allow many calls
         // TODO: move logic to window build
@@ -271,6 +272,9 @@ class Context
         return $this->nodes[$name];
     }
 
+    /**
+     * @return array<string, true>
+     */
     public function getCollisions(string $name): array
     {
         return $this->collisions[$name] ?? [];

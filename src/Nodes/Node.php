@@ -41,11 +41,11 @@ abstract class Node
         $this->speed = 0;
     }
 
-    abstract public function start();
+    abstract public function start(): void;
 
-    abstract public function move();
+    abstract public function move(): void;
 
-    abstract public function postMove();
+    abstract public function postMove(): void;
 
     public function draw(): void
     {
