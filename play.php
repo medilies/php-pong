@@ -43,8 +43,8 @@ $projection->ortho(
     1
 );
 
-$c->setUniform4f(U_PROJECTION, GL_FALSE, $projection);
-$c->setUniform4f(U_VIEW, GL_FALSE, $view);
+$c->setUniform4f(U_PROJECTION, false, $projection);
+$c->setUniform4f(U_VIEW, false, $view);
 
 $c->loop(function (Context $c) {
     glClear(GL_COLOR_BUFFER_BIT);

@@ -46,7 +46,7 @@ class ElementarySquare extends BaseVertex
             $indexPosition,
             $positionSize,
             GL_FLOAT,
-            GL_FALSE,
+            false,
             GL_SIZEOF_FLOAT * ($positionSize + $colorSize),
             0
         );
@@ -57,7 +57,7 @@ class ElementarySquare extends BaseVertex
             $indexColor,
             $colorSize,
             GL_FLOAT,
-            GL_FALSE,
+            false,
             GL_SIZEOF_FLOAT * ($positionSize + $colorSize),
             GL_SIZEOF_FLOAT * $positionSize
         );

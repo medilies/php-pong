@@ -56,7 +56,7 @@ abstract class Node
         $model->scale(new Vec3($this->width, $this->heigh));
 
         $this->vertex->bind();
-        $this->context->setUniform4f(U_MODEL, GL_FALSE, $model);
+        $this->context->setUniform4f(U_MODEL, false, $model);
         $this->vertex->draw();
         $this->vertex->unbind();
     }
