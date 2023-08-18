@@ -106,7 +106,8 @@ class Window
             $this->title,
         );
 
-        if (! $this->windowRef) {
+        // TODO: ask maintainer why doc expect this to give false
+        if (! $this->windowRef) { /** @phpstan-ignore-line */
             throw new Exception('OS Window could not be initialized!');
         }
     }
