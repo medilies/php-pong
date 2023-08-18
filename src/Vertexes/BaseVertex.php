@@ -4,9 +4,9 @@ namespace Medilies\TryingPhpGlfw\Vertexes;
 
 abstract class BaseVertex
 {
-    protected readonly mixed $vao;
+    protected readonly int $vao;
 
-    protected readonly mixed $vbo;
+    protected readonly int $vbo;
 
     public function __construct()
     {
