@@ -1,10 +1,10 @@
 <?php
 
-namespace Medilies\TryingPhpGlfw\Nodes\Pong;
+namespace Medilies\PhpPong\Nodes\Pong;
 
-use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Nodes\Node;
-use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
+use Medilies\PhpPong\Context;
+use Medilies\PhpPong\Nodes\Node;
+use Medilies\PhpPong\Vertexes\BaseVertex;
 
 class Ball extends Node
 {

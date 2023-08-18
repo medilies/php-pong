@@ -1,6 +1,6 @@
 <?php
 
-namespace Medilies\TryingPhpGlfw\Common;
+namespace Medilies\PhpPong\Common;
 
 trait BasicSingletonTrait
 {

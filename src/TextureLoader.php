@@ -1,6 +1,6 @@
 <?php
 
-namespace Medilies\TryingPhpGlfw;
+namespace Medilies\PhpPong;
 
 use GL\Texture\Texture2D;
 

@@ -1,10 +1,10 @@
 {
-    "name": "medilies/trying-php-glfw",
+    "name": "medilies/php-pong",
     "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Medilies\\TryingPhpGlfw\\": "src/"
+            "Medilies\\PhpPong\\": "src/"
         }
     },
     "authors": [

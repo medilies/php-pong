@@ -4,11 +4,11 @@ require __DIR__.'/vendor/autoload.php';
 
 use GL\Math\Mat4;
 use GL\Math\Vec3;
-use Medilies\TryingPhpGlfw\Context;
-use Medilies\TryingPhpGlfw\Nodes\Pong\Ball;
-use Medilies\TryingPhpGlfw\Nodes\Pong\Pad;
-use Medilies\TryingPhpGlfw\ShaderProgram;
-use Medilies\TryingPhpGlfw\Vertexes\ElementarySquare;
+use Medilies\PhpPong\Context;
+use Medilies\PhpPong\Nodes\Pong\Ball;
+use Medilies\PhpPong\Nodes\Pong\Pad;
+use Medilies\PhpPong\ShaderProgram;
+use Medilies\PhpPong\Vertexes\ElementarySquare;
 
 $c = Context::make();
 $c->createWindow(1080, 720, 'PONG');

@@ -1,11 +1,11 @@
 <?php
 
-namespace Medilies\TryingPhpGlfw;
+namespace Medilies\PhpPong;
 
 use Exception;
 use GL\Math\Mat4;
-use Medilies\TryingPhpGlfw\Common\BasicSingletonTrait;
-use Medilies\TryingPhpGlfw\Nodes\Node;
+use Medilies\PhpPong\Common\BasicSingletonTrait;
+use Medilies\PhpPong\Nodes\Node;
 
 class Context
 {
