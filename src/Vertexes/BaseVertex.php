@@ -10,7 +10,7 @@ abstract class BaseVertex
 
     public function __construct()
     {
-        $this->generateAndBind();
+        [$this->vbo, $this->vao] = $this->generateAndBind();
 
         $this->setBufferData();
 
@@ -29,7 +29,7 @@ abstract class BaseVertex
      * create a vertex array (VertexArrayObject -> VAO)
      * create a buffer for our vertices (VertexBufferObject -> VBO)
      */
-    protected function generateAndBind(): void
+    protected function generateAndBind(): array
     {
         glGenBuffers(1, $vbo);
         glGenVertexArrays(1, $vao);
@@ -37,7 +37,7 @@ abstract class BaseVertex
         glBindBuffer(GL_ARRAY_BUFFER, $vbo);
         glBindVertexArray($vao);
 
-        [$this->vbo, $this->vao] = [$vbo, $vao];
+        return [$vbo, $vao];
     }
 
     public function bind()
