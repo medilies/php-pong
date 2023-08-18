@@ -19,11 +19,11 @@ abstract class Node
 
     protected float $heigh;
 
-    protected readonly float $iPosX;
+    protected float $iPosX;
 
-    protected readonly float $iPosY;
+    protected float $iPosY;
 
-    protected readonly float $iSpeed;
+    protected float $iSpeed;
 
     protected float $speed;
 

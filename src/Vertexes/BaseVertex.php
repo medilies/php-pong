@@ -2,12 +2,11 @@
 
 namespace Medilies\TryingPhpGlfw\Vertexes;
 
-// TODO: rename to Vertex
 abstract class BaseVertex
 {
-    protected readonly mixed $VAO;
+    protected readonly mixed $vao;
 
-    protected readonly mixed $VBO;
+    protected readonly mixed $vbo;
 
     public function __construct()
     {
@@ -32,16 +31,18 @@ abstract class BaseVertex
      */
     protected function generateAndBind(): void
     {
-        glGenBuffers(1, $this->VBO);
-        glGenVertexArrays(1, $this->VAO);
+        glGenBuffers(1, $vbo);
+        glGenVertexArrays(1, $vao);
 
-        glBindBuffer(GL_ARRAY_BUFFER, $this->VBO);
-        glBindVertexArray($this->VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, $vbo);
+        glBindVertexArray($vao);
+
+        [$this->vbo, $this->vao] = [$vbo, $vao];
     }
 
     public function bind()
     {
-        glBindVertexArray($this->VAO);
+        glBindVertexArray($this->vao);
     }
 
     public function unbind()
@@ -52,7 +53,7 @@ abstract class BaseVertex
 
     public function delete(): void
     {
-        glDeleteVertexArrays(1, $this->VAO);
-        glDeleteBuffers(1, $this->VBO);
+        glDeleteVertexArrays(1, $this->vao);
+        glDeleteBuffers(1, $this->vbo);
     }
 }

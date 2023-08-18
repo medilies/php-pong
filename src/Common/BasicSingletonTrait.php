@@ -4,18 +4,19 @@ namespace Medilies\TryingPhpGlfw\Common;
 
 trait BasicSingletonTrait
 {
+    /** @phpstan-ignore-next-line */
     private static $instance;
-
-    public static function make(): static
-    {
-        if (isset(static::$instance)) {
-            return static::$instance;
-        }
-
-        return new static;
-    }
 
     private function __construct()
     {
+    }
+
+    public static function make(): static
+    {
+        if (! self::$instance) {
+            self::$instance = new static();
+        }
+
+        return self::$instance;
     }
 }

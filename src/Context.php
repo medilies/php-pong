@@ -33,7 +33,7 @@ class Context
     private bool $isStarted = false;
 
     // GLFW does not inherently support multiple contexts within a single instance of the library.
-    private function __construct()
+    final private function __construct()
     {
         echo '=================================================='.PHP_EOL;
         echo 'GLFW version: '.glfwGetVersionString().PHP_EOL;
@@ -43,7 +43,7 @@ class Context
             throw new Exception('GLFW could not be initialized!');
         }
 
-        // setting the swap interval to "1" basically enabled vsync.
+        // setting the swap interval to "1" basically enabled v-sync.
         // more correctly it defines how many screen updates to wait for after swapBuffers has been called
         glfwSwapInterval(1);
     }

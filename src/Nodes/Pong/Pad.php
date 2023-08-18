@@ -8,12 +8,6 @@ use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Pad extends Node
 {
-    protected readonly float $iPosX;
-
-    protected readonly float $iPosY;
-
-    protected readonly float $iSpeed;
-
     public function __construct(
         protected Context $context,
         protected BaseVertex $vertex,

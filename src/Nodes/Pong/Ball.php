@@ -8,11 +8,11 @@ use Medilies\TryingPhpGlfw\Vertexes\BaseVertex;
 
 class Ball extends Node
 {
-    protected readonly float $iPosX;
+    protected float $iPosX;
 
-    protected readonly float $iPosY;
+    protected float $iPosY;
 
-    protected readonly float $iSpeed;
+    protected float $iSpeed;
 
     public function __construct(
         protected Context $context,
