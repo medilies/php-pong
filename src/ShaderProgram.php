@@ -25,20 +25,33 @@ class ShaderProgram
 
     private function compileVertex(string $vertexName): int
     {
-        $shaderCode = file_get_contents(__DIR__."/resources/shaders/{$vertexName}.glsl");
-
-        $shaderCode = explode('// ---', $shaderCode);
-
-        return $this->compileShader(GL_VERTEX_SHADER, $shaderCode[0]);
+        return $this->compileShader(
+            GL_VERTEX_SHADER,
+            $this->getShaderFileContent($vertexName)[0]
+        );
     }
 
     private function compileFragment(string $fragmentName): int
     {
-        $shaderCode = file_get_contents(__DIR__."/resources/shaders/{$fragmentName}.glsl");
+        return $this->compileShader(
+            GL_FRAGMENT_SHADER,
+            $this->getShaderFileContent($fragmentName)[1]
+        );
+    }
 
-        $shaderCode = explode('// ---', $shaderCode);
+    /**
+     * @return string[]
+     */
+    private function getShaderFileContent(string $fileName): array
+    {
+        $path = __DIR__."/resources/shaders/{$fileName}.glsl";
+        $shaderCode = file_get_contents($path);
 
-        return $this->compileShader(GL_FRAGMENT_SHADER, $shaderCode[1]);
+        if(false === $shaderCode) {
+            throw new Exception("Couldn't read shader: '{$path}'");
+        }
+
+        return explode('// ---', $shaderCode);
     }
 
     private function compileShader(int $type, string $shaderCode): int
