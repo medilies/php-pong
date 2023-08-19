@@ -2,9 +2,6 @@
 
 namespace Medilies\PhpPong\Game\Nodes;
 
-use GL\Math\Mat4;
-use GL\Math\Vec3;
-use Medilies\PhpPong\OpenGl\Context;
 use Medilies\PhpPong\OpenGl\RectDrawer;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
@@ -29,8 +26,6 @@ abstract class Node
     protected float $speed;
 
     protected float $movAngle;
-
-    protected Context $context;
 
     protected BaseVertex $vertex;
 

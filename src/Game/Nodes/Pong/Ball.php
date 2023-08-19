@@ -4,7 +4,6 @@ namespace Medilies\PhpPong\Game\Nodes\Pong;
 
 use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Node;
-use Medilies\PhpPong\OpenGl\Context;
 use Medilies\PhpPong\OpenGl\RectDrawer;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
@@ -17,7 +16,6 @@ class Ball extends Node
     protected float $iSpeed;
 
     public function __construct(
-        protected Context $context,
         protected BaseVertex $vertex,
         protected string $name,
         protected RectDrawer $drawer,

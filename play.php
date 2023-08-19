@@ -17,13 +17,11 @@ const U_MODEL = 'u_model';
 const U_VIEW = 'u_view';
 const U_PROJECTION = 'u_projection';
 
-$c = Context::make();
-
-$game = Game::make($c, 1080, 720);
+$game = Game::make(Context::make(), 1080, 720);
 
 $game->init();
 
-$game->addNode(new Pad($c, new ElementarySquare, 'pad', new RectDrawer));
-$game->addNode(new Ball($c, new ElementarySquare, 'ball', new RectDrawer));
+$game->addNode(new Pad(new ElementarySquare, 'pad', new RectDrawer));
+$game->addNode(new Ball(new ElementarySquare, 'ball', new RectDrawer));
 
 $game->loop();

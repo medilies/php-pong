@@ -118,9 +118,9 @@ class Context
         $this->getCurrentWindow()->setViewport();
     }
 
-    public function isPressed(int $glfwKeyCode): bool
+    public static function isPressed(int $glfwKeyCode): bool
     {
-        return $this->getCurrentWindow()->isPressed($glfwKeyCode);
+        return self::$instance->getCurrentWindow()->isPressed($glfwKeyCode);
     }
 
     public function closeCurrentWindow(): void

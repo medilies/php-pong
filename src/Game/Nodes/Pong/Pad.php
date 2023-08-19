@@ -11,7 +11,6 @@ use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 class Pad extends Node
 {
     public function __construct(
-        protected Context $context,
         protected BaseVertex $vertex,
         protected string $name,
         protected RectDrawer $drawer,
@@ -36,9 +35,9 @@ class Pad extends Node
     {
         $this->speed = $this->iSpeed;
 
-        if ($this->context->isPressed(GLFW_KEY_LEFT)) { // TODO: change
+        if (Context::isPressed(GLFW_KEY_LEFT)) { // TODO: add pub/sub events
             $this->movAngle = pi();
-        } elseif ($this->context->isPressed(GLFW_KEY_RIGHT)) {
+        } elseif (Context::isPressed(GLFW_KEY_RIGHT)) {
             $this->movAngle = 0;
         } else {
             $this->speed = 0;
