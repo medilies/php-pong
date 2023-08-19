@@ -2,6 +2,7 @@
 
 namespace Medilies\PhpPong\Game\Nodes\Pong;
 
+use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Node;
 use Medilies\PhpPong\OpenGl\Context;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
@@ -48,7 +49,7 @@ class Ball extends Node
     public function postMove(): void
     {
         // ? inverse control -> update collisions property here
-        $collisions = $this->context->getCollisions($this->name);
+        $collisions = Game::getCollisions($this->name);
 
         // TODO: don't ask by name to define behavior
         // Add interface like Repelling (deflects the ball)
@@ -105,7 +106,7 @@ class Ball extends Node
     {
         if ($this->bottom() <= 0) {
             $this->posY = 0;
-            $this->context->lost();
+            Game::lost();
         }
     }
 }

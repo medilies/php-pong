@@ -6,11 +6,14 @@ const PROJECT_PATH = __DIR__;
 
 use GL\Math\Mat4;
 use GL\Math\Vec3;
-use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Pong\Ball;
 use Medilies\PhpPong\Game\Nodes\Pong\Pad;
+use Medilies\PhpPong\OpenGl\Context;
 use Medilies\PhpPong\OpenGl\ShaderProgram;
 use Medilies\PhpPong\OpenGl\Vertexes\ElementarySquare;
+
+$game = Game::make();
 
 $c = Context::make();
 $c->createWindow(1080, 720, 'PONG');
@@ -29,8 +32,8 @@ $c->registerUniformLocation('pong', U_PROJECTION);
 
 $c->updateViewport();
 
-$c->registerNode(new Pad($c, new ElementarySquare, 'pad'));
-$c->registerNode(new Ball($c, new ElementarySquare, 'ball'));
+$game->registerNode(new Pad($c, new ElementarySquare, 'pad'));
+$game->registerNode(new Ball($c, new ElementarySquare, 'ball'));
 
 // Scene
 $view = new Mat4;
@@ -48,11 +51,11 @@ $projection->ortho(
 $c->setUniform4f(U_PROJECTION, false, $projection);
 $c->setUniform4f(U_VIEW, false, $view);
 
-$c->loop(function (Context $c) {
+$game->loop(function (Game $game) {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(0.8, 0.6, 0, 1);
 
-    if ($c->isPressed(GLFW_KEY_ESCAPE)) {
-        $c->closeCurrentWindow();
+    if ($game->context->isPressed(GLFW_KEY_ESCAPE)) {
+        $game->context->closeCurrentWindow();
     }
 });
