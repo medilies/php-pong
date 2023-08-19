@@ -1,11 +1,11 @@
 <?php
 
-namespace Medilies\PhpPong;
+namespace Medilies\PhpPong\OpenGl;
 
 use Exception;
 use GL\Math\Mat4;
 use Medilies\PhpPong\Common\BasicSingletonTrait;
-use Medilies\PhpPong\Nodes\Node;
+use Medilies\PhpPong\Game\Nodes\Node;
 
 class Context
 {

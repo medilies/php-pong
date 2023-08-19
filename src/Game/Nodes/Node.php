@@ -1,11 +1,11 @@
 <?php
 
-namespace Medilies\PhpPong\Nodes;
+namespace Medilies\PhpPong\Game\Nodes;
 
 use GL\Math\Mat4;
 use GL\Math\Vec3;
-use Medilies\PhpPong\Context;
-use Medilies\PhpPong\Vertexes\BaseVertex;
+use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 abstract class Node
 {

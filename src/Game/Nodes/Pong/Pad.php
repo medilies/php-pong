@@ -1,10 +1,10 @@
 <?php
 
-namespace Medilies\PhpPong\Nodes\Pong;
+namespace Medilies\PhpPong\Game\Nodes\Pong;
 
-use Medilies\PhpPong\Context;
-use Medilies\PhpPong\Nodes\Node;
-use Medilies\PhpPong\Vertexes\BaseVertex;
+use Medilies\PhpPong\Game\Nodes\Node;
+use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 class Pad extends Node
 {

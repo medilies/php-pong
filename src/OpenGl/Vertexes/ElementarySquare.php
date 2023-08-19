@@ -1,6 +1,6 @@
 <?php
 
-namespace Medilies\PhpPong\Vertexes;
+namespace Medilies\PhpPong\OpenGl\Vertexes;
 
 use GL\Buffer\FloatBuffer;
 

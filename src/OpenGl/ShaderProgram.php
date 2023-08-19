@@ -1,6 +1,6 @@
 <?php
 
-namespace Medilies\PhpPong;
+namespace Medilies\PhpPong\OpenGl;
 
 use Exception;
 
@@ -44,7 +44,7 @@ class ShaderProgram
      */
     private function getShaderFileContent(string $fileName): array
     {
-        $path = __DIR__."/resources/shaders/{$fileName}.glsl";
+        $path = PROJECT_PATH."/src/resources/shaders/{$fileName}.glsl";
         $shaderCode = file_get_contents($path);
 
         if (false === $shaderCode) {

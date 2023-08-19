@@ -1,6 +1,6 @@
 <?php
 
-namespace Medilies\PhpPong;
+namespace Medilies\PhpPong\OpenGl;
 
 use Exception;
 use GLFWwindow;

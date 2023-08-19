@@ -2,13 +2,15 @@
 
 require __DIR__.'/vendor/autoload.php';
 
+const PROJECT_PATH = __DIR__;
+
 use GL\Math\Mat4;
 use GL\Math\Vec3;
-use Medilies\PhpPong\Context;
-use Medilies\PhpPong\Nodes\Pong\Ball;
-use Medilies\PhpPong\Nodes\Pong\Pad;
-use Medilies\PhpPong\ShaderProgram;
-use Medilies\PhpPong\Vertexes\ElementarySquare;
+use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\Game\Nodes\Pong\Ball;
+use Medilies\PhpPong\Game\Nodes\Pong\Pad;
+use Medilies\PhpPong\OpenGl\ShaderProgram;
+use Medilies\PhpPong\OpenGl\Vertexes\ElementarySquare;
 
 $c = Context::make();
 $c->createWindow(1080, 720, 'PONG');
