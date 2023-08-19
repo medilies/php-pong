@@ -4,6 +4,7 @@ namespace Medilies\PhpPong\OpenGl;
 
 use Exception;
 use GL\Math\Mat4;
+use GL\Math\Vec3;
 use Medilies\PhpPong\Common\BasicSingletonTrait;
 
 class Context
@@ -38,6 +39,37 @@ class Context
         // setting the swap interval to "1" basically enabled v-sync.
         // more correctly it defines how many screen updates to wait for after swapBuffers has been called
         glfwSwapInterval(1);
+    }
+
+    public function init(): void
+    {
+        $this->createWindow(1080, 720, 'PONG');
+
+        $this->registerShaderProgram('pong', new ShaderProgram('pong', 'pong'));
+
+        $this->useShaderProgram('pong');
+
+        $this->registerUniformLocation('pong', U_MODEL);
+        $this->registerUniformLocation('pong', U_VIEW);
+        $this->registerUniformLocation('pong', U_PROJECTION);
+
+        $this->updateViewport();
+
+        // Scene
+        $view = new Mat4;
+        $view->translate(new Vec3()); // ! not needed
+        $projection = new Mat4;
+        $projection->ortho(
+            0,
+            $this->getCurrentWindowWidth(),
+            0,
+            $this->getCurrentWindowHeight(),
+            -1,
+            1
+        );
+
+        $this->setUniform4f(U_PROJECTION, false, $projection);
+        $this->setUniform4f(U_VIEW, false, $view);
     }
 
     /**
