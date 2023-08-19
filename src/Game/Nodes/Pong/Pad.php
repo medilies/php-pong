@@ -2,6 +2,7 @@
 
 namespace Medilies\PhpPong\Game\Nodes\Pong;
 
+use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Node;
 use Medilies\PhpPong\OpenGl\Context;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
@@ -13,12 +14,12 @@ class Pad extends Node
         protected BaseVertex $vertex,
         protected string $name,
     ) {
-        $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
+        $this->iSpeed = Game::sceneWidth() * 0.01;
 
         $this->width = 80;
         $this->heigh = 10;
 
-        $this->iPosX = $this->context->getCurrentWindowWidth() / 2 - $this->width / 2;
+        $this->iPosX = Game::sceneWidth() / 2 - $this->width / 2;
         $this->iPosY = 20;
 
         $this->reset();
@@ -46,8 +47,8 @@ class Pad extends Node
         $this->posX += cos($this->movAngle) * $this->speed;
         $this->posY += sin($this->movAngle) * $this->speed;
 
-        if ($this->right() >= $this->context->getCurrentWindowWidth()) {
-            $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
+        if ($this->right() >= Game::sceneWidth()) {
+            $this->posX = Game::sceneWidth() - $this->width;
         }
 
         if ($this->left() <= 0) {

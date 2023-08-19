@@ -2,20 +2,12 @@
 
 namespace Medilies\PhpPong;
 
-use Medilies\PhpPong\Common\BasicSingletonTrait;
 use Medilies\PhpPong\Game\Nodes\Node;
 use Medilies\PhpPong\OpenGl\Context;
 
 final class Game
 {
-    use BasicSingletonTrait;
-
-    public Context $context;
-
-    private function __construct(
-    ) {
-        $this->context = Context::make();
-    }
+    private static $instance;
 
     /** @var array<string, Node> */
     private array $nodes = [];
@@ -25,12 +17,51 @@ final class Game
 
     private bool $isStarted = false;
 
-    public function loop(callable $callback): void
+    public static function make(Context $context, int $windowWidth, int $windowHeigh): self
+    {
+        if (! isset(self::$instance)) {
+            self::$instance = new self($context, $windowWidth, $windowHeigh);
+        }
+
+        return self::$instance;
+    }
+
+    private function __construct(
+        public Context $context,
+        private int $windowWidth,
+        private int $windowHeigh,
+    ) {
+    }
+
+    public function init(): void
+    {
+        $this->context->createWindow(1080, 720, 'PONG');
+        $this->context->init();
+    }
+
+    public static function sceneWidth(): int
+    {
+        return self::$instance->windowWidth;
+    }
+
+    public static function sceneHeight(): int
+    {
+        return self::$instance->windowHeigh;
+    }
+
+    // !
+
+    public function loop(): void
     {
         while (! $this->context->getCurrentWindow()->shouldClose()) {
             $this->handleStart();
 
-            $callback($this);
+            glClear(GL_COLOR_BUFFER_BIT);
+            glClearColor(0.8, 0.6, 0, 1);
+
+            if ($this->context->isPressed(GLFW_KEY_ESCAPE)) {
+                $this->context->closeCurrentWindow();
+            }
 
             if ($this->isStarted) {
                 $this->collisions = [];
@@ -96,7 +127,7 @@ final class Game
 
     public static function lost(): void
     {
-        self::make()->isStarted = false;
+        self::$instance->isStarted = false;
     }
 
     // ===============================================
@@ -124,6 +155,6 @@ final class Game
      */
     public static function getCollisions(string $name): array
     {
-        return self::make()->collisions[$name] ?? [];
+        return self::$instance->collisions[$name] ?? [];
     }
 }

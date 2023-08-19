@@ -20,11 +20,11 @@ class Ball extends Node
         protected BaseVertex $vertex,
         protected string $name,
     ) {
-        $this->iPosX = $this->context->getCurrentWindowWidth() / 2;
+        $this->iPosX = Game::sceneWidth() / 2;
 
-        $this->iPosY = $this->context->getCurrentWindowHeight() / 2;
+        $this->iPosY = Game::sceneHeight() / 2;
 
-        $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
+        $this->iSpeed = Game::sceneWidth() * 0.01;
 
         $this->width = 10;
         $this->heigh = 10;
@@ -77,8 +77,8 @@ class Ball extends Node
 
     private function handleWallsCollisions(): void
     {
-        if ($this->right() >= $this->context->getCurrentWindowWidth()) {
-            $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
+        if ($this->right() >= Game::sceneWidth()) {
+            $this->posX = Game::sceneWidth() - $this->width;
             $this->movAngle = pi() - $this->movAngle;
         }
 
@@ -87,8 +87,8 @@ class Ball extends Node
             $this->movAngle = pi() - $this->movAngle;
         }
 
-        if ($this->top() >= $this->context->getCurrentWindowHeight()) {
-            $this->posY = $this->context->getCurrentWindowHeight() - $this->heigh;
+        if ($this->top() >= Game::sceneHeight()) {
+            $this->posY = Game::sceneHeight() - $this->heigh;
             $this->movAngle = -$this->movAngle;
         }
     }

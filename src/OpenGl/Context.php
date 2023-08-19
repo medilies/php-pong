@@ -43,19 +43,17 @@ class Context
 
     public function init(): void
     {
-        $this->createWindow(1080, 720, 'PONG');
+        $this->registerShaderProgram(SQUARE_SHADER, new ShaderProgram(SQUARE_SHADER, SQUARE_SHADER));
 
-        $this->registerShaderProgram('pong', new ShaderProgram('pong', 'pong'));
+        $this->useShaderProgram(SQUARE_SHADER);
 
-        $this->useShaderProgram('pong');
-
-        $this->registerUniformLocation('pong', U_MODEL);
-        $this->registerUniformLocation('pong', U_VIEW);
-        $this->registerUniformLocation('pong', U_PROJECTION);
+        $this->registerUniformLocation(SQUARE_SHADER, U_MODEL);
+        $this->registerUniformLocation(SQUARE_SHADER, U_VIEW);
+        $this->registerUniformLocation(SQUARE_SHADER, U_PROJECTION);
 
         $this->updateViewport();
 
-        // Scene
+        // TODO Scene
         $view = new Mat4;
         $view->translate(new Vec3()); // ! not needed
         $projection = new Mat4;
