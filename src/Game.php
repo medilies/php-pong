@@ -134,13 +134,13 @@ final class Game
     // Nodes
     // ===============================================
 
-    public function registerNode(Node $node): void
+    public function addNode(Node $node): void
     {
         // TODO: must not be '' or duplicate
         $this->nodes[$node->getName()] = $node;
     }
 
-    public function unregisterNode(string $name): void
+    public function removeNode(string $name): void
     {
         unset($this->nodes[$name]);
     }

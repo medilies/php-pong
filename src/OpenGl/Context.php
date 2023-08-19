@@ -66,8 +66,8 @@ class Context
             1
         );
 
-        $this->setUniform4f(U_PROJECTION, false, $projection);
-        $this->setUniform4f(U_VIEW, false, $view);
+        self::setUniform4f(U_PROJECTION, false, $projection);
+        self::setUniform4f(U_VIEW, false, $view);
     }
 
     /**
@@ -188,14 +188,14 @@ class Context
         return $this->uniformLocations[$name];
     }
 
-    public function setUniform4f(string $name, bool $transpose, Mat4 $matrix): void
+    public static function setUniform4f(string $name, bool $transpose, Mat4 $matrix): void
     {
         // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
-        glUniformMatrix4f($this->getUniformLocation($name), $transpose, $matrix);
+        glUniformMatrix4f(self::$instance->getUniformLocation($name), $transpose, $matrix);
     }
 
-    public function setUniform1i(string $name, int $value): void
+    public static function setUniform1i(string $name, int $value): void
     {
-        glUniform1i($this->getUniformLocation($name), $value);
+        glUniform1i(self::$instance->getUniformLocation($name), $value);
     }
 }

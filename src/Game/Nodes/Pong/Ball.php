@@ -5,6 +5,7 @@ namespace Medilies\PhpPong\Game\Nodes\Pong;
 use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Node;
 use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\RectDrawer;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 class Ball extends Node
@@ -19,6 +20,7 @@ class Ball extends Node
         protected Context $context,
         protected BaseVertex $vertex,
         protected string $name,
+        protected RectDrawer $drawer,
     ) {
         $this->iPosX = Game::sceneWidth() / 2;
 

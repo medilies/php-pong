@@ -5,6 +5,7 @@ namespace Medilies\PhpPong\Game\Nodes\Pong;
 use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Node;
 use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\RectDrawer;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 class Pad extends Node
@@ -13,6 +14,7 @@ class Pad extends Node
         protected Context $context,
         protected BaseVertex $vertex,
         protected string $name,
+        protected RectDrawer $drawer,
     ) {
         $this->iSpeed = Game::sceneWidth() * 0.01;
 
@@ -34,7 +36,7 @@ class Pad extends Node
     {
         $this->speed = $this->iSpeed;
 
-        if ($this->context->isPressed(GLFW_KEY_LEFT)) {
+        if ($this->context->isPressed(GLFW_KEY_LEFT)) { // TODO: change
             $this->movAngle = pi();
         } elseif ($this->context->isPressed(GLFW_KEY_RIGHT)) {
             $this->movAngle = 0;

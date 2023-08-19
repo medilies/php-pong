@@ -5,6 +5,7 @@ namespace Medilies\PhpPong\Game\Nodes;
 use GL\Math\Mat4;
 use GL\Math\Vec3;
 use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\RectDrawer;
 use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 abstract class Node
@@ -33,6 +34,8 @@ abstract class Node
 
     protected BaseVertex $vertex;
 
+    protected RectDrawer $drawer; // TODO: interface it
+
     public function reset(): void
     {
         $this->posX = $this->iPosX;
@@ -49,14 +52,11 @@ abstract class Node
 
     public function draw(): void
     {
-        $model = new Mat4;
-
-        // ! find a ratio
-        $model->translate(new Vec3($this->posX, $this->posY));
-        $model->scale(new Vec3($this->width, $this->heigh));
 
         $this->vertex->bind();
-        $this->context->setUniform4f(U_MODEL, false, $model); // TODO: abstract
+
+        $this->drawer->draw($this->posX, $this->posY, $this->width, $this->heigh);
+
         $this->vertex->draw();
         $this->vertex->unbind();
     }

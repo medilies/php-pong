@@ -6,6 +6,7 @@ use Medilies\PhpPong\Game;
 use Medilies\PhpPong\Game\Nodes\Pong\Ball;
 use Medilies\PhpPong\Game\Nodes\Pong\Pad;
 use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\RectDrawer;
 use Medilies\PhpPong\OpenGl\Vertexes\ElementarySquare;
 
 const PROJECT_PATH = __DIR__;
@@ -22,7 +23,7 @@ $game = Game::make($c, 1080, 720);
 
 $game->init();
 
-$game->registerNode(new Pad($c, new ElementarySquare, 'pad'));
-$game->registerNode(new Ball($c, new ElementarySquare, 'ball'));
+$game->addNode(new Pad($c, new ElementarySquare, 'pad', new RectDrawer));
+$game->addNode(new Ball($c, new ElementarySquare, 'ball', new RectDrawer));
 
 $game->loop();
