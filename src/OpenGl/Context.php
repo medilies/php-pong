@@ -1,11 +1,11 @@
 <?php
 
-namespace Medilies\PhpPong;
+namespace Medilies\PhpPong\OpenGl;
 
 use Exception;
 use GL\Math\Mat4;
+use GL\Math\Vec3;
 use Medilies\PhpPong\Common\BasicSingletonTrait;
-use Medilies\PhpPong\Nodes\Node;
 
 class Context
 {
@@ -25,14 +25,6 @@ class Context
     /** @var array<string, int> */
     private array $uniformLocations = [];
 
-    /** @var array<string, Node> */
-    private array $nodes = [];
-
-    /** @var array<string, array<string, true>> */
-    private array $collisions = [];
-
-    private bool $isStarted = false;
-
     // GLFW does not inherently support multiple contexts within a single instance of the library.
     final private function __construct()
     {
@@ -49,78 +41,33 @@ class Context
         glfwSwapInterval(1);
     }
 
-    public function loop(callable $callback): void
+    public function init(): void
     {
-        while (! $this->window->shouldClose()) {
-            $this->handleStart();
+        $this->registerShaderProgram(SQUARE_SHADER, new ShaderProgram(SQUARE_SHADER, SQUARE_SHADER));
 
-            $callback($this);
+        $this->useShaderProgram(SQUARE_SHADER);
 
-            if ($this->isStarted) {
-                $this->collisions = [];
+        $this->registerUniformLocation(SQUARE_SHADER, U_MODEL);
+        $this->registerUniformLocation(SQUARE_SHADER, U_VIEW);
+        $this->registerUniformLocation(SQUARE_SHADER, U_PROJECTION);
 
-                foreach ($this->nodes as $node) {
-                    $node->move();
-                }
+        $this->updateViewport();
 
-                $this->checkCollisions();
+        // TODO Scene
+        $view = new Mat4;
+        $view->translate(new Vec3()); // ! not needed
+        $projection = new Mat4;
+        $projection->ortho(
+            0,
+            $this->getCurrentWindowWidth(),
+            0,
+            $this->getCurrentWindowHeight(),
+            -1,
+            1
+        );
 
-                foreach ($this->nodes as $node) {
-                    $node->postMove();
-                }
-            }
-
-            foreach ($this->nodes as $node) {
-                $node->draw();
-            }
-
-            $this->window->swapBuffers();
-            glfwPollEvents();
-        }
-    }
-
-    private function checkCollisions(): void
-    {
-        $checked = [];
-        foreach ($this->nodes as $name1 => $node1) {
-            foreach ($this->nodes as $name2 => $node2) {
-                if (isset($checked[$name2]) || $name1 === $name2) {
-                    continue;
-                }
-
-                if ($node1->collided($node2)) {
-                    $this->collisions[$name1][$name2] = true;
-                    $this->collisions[$name2][$name1] = true;
-                }
-            }
-            $checked[$name1] = true;
-        }
-    }
-
-    private function handleStart(): void
-    {
-        if ($this->isStarted) {
-            return;
-        }
-
-        if (! $this->window->isPressed(GLFW_KEY_SPACE)) {
-            return;
-        }
-
-        $this->isStarted = true;
-
-        foreach ($this->nodes as $node) {
-            $node->reset();
-        }
-
-        foreach ($this->nodes as $node) {
-            $node->start();
-        }
-    }
-
-    public function lost(): void
-    {
-        $this->isStarted = false;
+        self::setUniform4f(U_PROJECTION, false, $projection);
+        self::setUniform4f(U_VIEW, false, $view);
     }
 
     /**
@@ -171,9 +118,9 @@ class Context
         $this->getCurrentWindow()->setViewport();
     }
 
-    public function isPressed(int $glfwKeyCode): bool
+    public static function isPressed(int $glfwKeyCode): bool
     {
-        return $this->getCurrentWindow()->isPressed($glfwKeyCode);
+        return self::$instance->getCurrentWindow()->isPressed($glfwKeyCode);
     }
 
     public function closeCurrentWindow(): void
@@ -241,42 +188,14 @@ class Context
         return $this->uniformLocations[$name];
     }
 
-    public function setUniform4f(string $name, bool $transpose, Mat4 $matrix): void
+    public static function setUniform4f(string $name, bool $transpose, Mat4 $matrix): void
     {
         // note that we use `glUniformMatrix4f` instead of `glUniformMatrix4fv` to pass a single matrix.
-        glUniformMatrix4f($this->getUniformLocation($name), $transpose, $matrix);
+        glUniformMatrix4f(self::$instance->getUniformLocation($name), $transpose, $matrix);
     }
 
-    public function setUniform1i(string $name, int $value): void
+    public static function setUniform1i(string $name, int $value): void
     {
-        glUniform1i($this->getUniformLocation($name), $value);
-    }
-
-    // ===============================================
-    // Nodes
-    // ===============================================
-
-    public function registerNode(Node $node): void
-    {
-        // TODO: must not be '' or duplicate
-        $this->nodes[$node->getName()] = $node;
-    }
-
-    public function unregisterNode(string $name): void
-    {
-        unset($this->nodes[$name]);
-    }
-
-    public function getNode(string $name): Node
-    {
-        return $this->nodes[$name];
-    }
-
-    /**
-     * @return array<string, true>
-     */
-    public function getCollisions(string $name): array
-    {
-        return $this->collisions[$name] ?? [];
+        glUniform1i(self::$instance->getUniformLocation($name), $value);
     }
 }

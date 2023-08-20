@@ -1,24 +1,26 @@
 <?php
 
-namespace Medilies\PhpPong\Nodes\Pong;
+namespace Medilies\PhpPong\Game\Nodes\Pong;
 
-use Medilies\PhpPong\Context;
-use Medilies\PhpPong\Nodes\Node;
-use Medilies\PhpPong\Vertexes\BaseVertex;
+use Medilies\PhpPong\Game;
+use Medilies\PhpPong\Game\Nodes\Node;
+use Medilies\PhpPong\OpenGl\Context;
+use Medilies\PhpPong\OpenGl\RectDrawer;
+use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 class Pad extends Node
 {
     public function __construct(
-        protected Context $context,
         protected BaseVertex $vertex,
         protected string $name,
+        protected RectDrawer $drawer,
     ) {
-        $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
+        $this->iSpeed = Game::sceneWidth() * 0.01;
 
         $this->width = 80;
         $this->heigh = 10;
 
-        $this->iPosX = $this->context->getCurrentWindowWidth() / 2 - $this->width / 2;
+        $this->iPosX = Game::sceneWidth() / 2 - $this->width / 2;
         $this->iPosY = 20;
 
         $this->reset();
@@ -33,9 +35,9 @@ class Pad extends Node
     {
         $this->speed = $this->iSpeed;
 
-        if ($this->context->isPressed(GLFW_KEY_LEFT)) {
+        if (Context::isPressed(GLFW_KEY_LEFT)) { // TODO: add pub/sub events
             $this->movAngle = pi();
-        } elseif ($this->context->isPressed(GLFW_KEY_RIGHT)) {
+        } elseif (Context::isPressed(GLFW_KEY_RIGHT)) {
             $this->movAngle = 0;
         } else {
             $this->speed = 0;
@@ -46,8 +48,8 @@ class Pad extends Node
         $this->posX += cos($this->movAngle) * $this->speed;
         $this->posY += sin($this->movAngle) * $this->speed;
 
-        if ($this->right() >= $this->context->getCurrentWindowWidth()) {
-            $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
+        if ($this->right() >= Game::sceneWidth()) {
+            $this->posX = Game::sceneWidth() - $this->width;
         }
 
         if ($this->left() <= 0) {

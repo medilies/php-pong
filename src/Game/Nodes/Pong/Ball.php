@@ -1,10 +1,11 @@
 <?php
 
-namespace Medilies\PhpPong\Nodes\Pong;
+namespace Medilies\PhpPong\Game\Nodes\Pong;
 
-use Medilies\PhpPong\Context;
-use Medilies\PhpPong\Nodes\Node;
-use Medilies\PhpPong\Vertexes\BaseVertex;
+use Medilies\PhpPong\Game;
+use Medilies\PhpPong\Game\Nodes\Node;
+use Medilies\PhpPong\OpenGl\RectDrawer;
+use Medilies\PhpPong\OpenGl\Vertexes\BaseVertex;
 
 class Ball extends Node
 {
@@ -15,15 +16,15 @@ class Ball extends Node
     protected float $iSpeed;
 
     public function __construct(
-        protected Context $context,
         protected BaseVertex $vertex,
         protected string $name,
+        protected RectDrawer $drawer,
     ) {
-        $this->iPosX = $this->context->getCurrentWindowWidth() / 2;
+        $this->iPosX = Game::sceneWidth() / 2;
 
-        $this->iPosY = $this->context->getCurrentWindowHeight() / 2;
+        $this->iPosY = Game::sceneHeight() / 2;
 
-        $this->iSpeed = $this->context->getCurrentWindowWidth() * 0.01;
+        $this->iSpeed = Game::sceneWidth() * 0.01;
 
         $this->width = 10;
         $this->heigh = 10;
@@ -33,7 +34,7 @@ class Ball extends Node
 
     public function start(): void
     {
-        $this->movAngle = random_int(0, 1) ? deg2rad(rand(45, 80)) : deg2rad(rand(100, 135));
+        $this->movAngle = random_int(0, 1) ? deg2rad(rand(45, 70)) : deg2rad(rand(110, 135));
         $this->speed = $this->iSpeed;
     }
 
@@ -48,7 +49,7 @@ class Ball extends Node
     public function postMove(): void
     {
         // ? inverse control -> update collisions property here
-        $collisions = $this->context->getCollisions($this->name);
+        $collisions = Game::getCollisions($this->name);
 
         // TODO: don't ask by name to define behavior
         // Add interface like Repelling (deflects the ball)
@@ -76,8 +77,8 @@ class Ball extends Node
 
     private function handleWallsCollisions(): void
     {
-        if ($this->right() >= $this->context->getCurrentWindowWidth()) {
-            $this->posX = $this->context->getCurrentWindowWidth() - $this->width;
+        if ($this->right() >= Game::sceneWidth()) {
+            $this->posX = Game::sceneWidth() - $this->width;
             $this->movAngle = pi() - $this->movAngle;
         }
 
@@ -86,8 +87,8 @@ class Ball extends Node
             $this->movAngle = pi() - $this->movAngle;
         }
 
-        if ($this->top() >= $this->context->getCurrentWindowHeight()) {
-            $this->posY = $this->context->getCurrentWindowHeight() - $this->heigh;
+        if ($this->top() >= Game::sceneHeight()) {
+            $this->posY = Game::sceneHeight() - $this->heigh;
             $this->movAngle = -$this->movAngle;
         }
     }
@@ -105,7 +106,7 @@ class Ball extends Node
     {
         if ($this->bottom() <= 0) {
             $this->posY = 0;
-            $this->context->lost();
+            Game::lost();
         }
     }
 }
